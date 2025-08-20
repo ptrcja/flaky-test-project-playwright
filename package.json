@@ -1,0 +1,43 @@
+{
+  "name": "playwright-flaky-detector",
+  "version": "1.0.0",
+  "description": "Automated flaky test detection for Playwright using CTRF reporter",
+  "main": "dist/run-flaky-detection.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "detect-flaky": "ts-node src/run-flaky-detection.ts",
+    "detect-flaky:quick": "ts-node src/run-flaky-detection.ts 5",
+    "detect-flaky:thorough": "ts-node src/run-flaky-detection.ts 20",
+    "report:open": "open reports/analysis/flaky-report.html",
+    "report:serve": "npx http-server reports/analysis -o",
+    "clean": "rm -rf reports dist test-results",
+    "build": "tsc",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "keywords": [
+    "playwright",
+    "testing",
+    "flaky-tests",
+    "test-automation",
+    "ctrf",
+    "quality-assurance"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.54.2",
+    "@types/node": "^24.3.0",
+    "playwright-ctrf-json-reporter": "^0.0.23",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

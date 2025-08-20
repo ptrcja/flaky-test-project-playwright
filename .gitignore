@@ -1,0 +1,14 @@
+# Environment variables - secrets
+.env
+
+# OS files
+.DS_Store
+
+# Node modules
+node_modules
+
+# Build files
+dist
+
+# Docs
+docs/
