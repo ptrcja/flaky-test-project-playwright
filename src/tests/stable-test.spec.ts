@@ -20,7 +20,6 @@ import { test, expect } from '@playwright/test';
  */
 
 // TODO: Add describe block here
-
 /**
  * Inside the describe block, implement these tests:
  */
@@ -37,25 +36,40 @@ import { test, expect } from '@playwright/test';
  * 
  * Why? This metadata helps CTRF categorize tests in reports
  */
+test.describe('Stable Tests', () => {
+// Add metadata for CTRF
+test.beforeEach
+(async ({ }, testInfo) => {
+  testInfo.annotations.push({
+    type: 'category',
+    description: 'stable',
+  });
+});
 
 /**
  * TODO #3: Implement 'should always pass - navigation' test
  * 
  * Test steps:
  * 1. Navigate to the base URL ('/') 
- * 2. Assert that the page title contains 'Playwright'
- * 3. Verify that the nav element is visible
+ * 2. Assert that the page title contains 'Friedhats'
+ * 3. Verify that the body element is visible 
  * 
  * Best practices:
- * - Use page.goto() with the relative path
- * - Use expect(page).toHaveTitle() with regex for flexible matching
- * - Use page.locator('nav') for element selection
+ - Use regex for flexible title matching (/Friedhats/)                                                                                                   │ │
+ - Test fundamental page elements (body) that are guaranteed to exist                                                                                    │ │
+ - Avoid complex selectors that might change 
  * 
  * Why this is stable:
- * - No random conditions
- * - Clear, deterministic assertions
- * - Proper wait for elements
+  - Tests basic page loading functionality                                                                                                                │ │
+  - Uses reliable, unchanging elements (body)                                                                                                             │ │
+  - No complex interactions or timing dependencies 
  */
+test('should always pass - navigation', async ({ page }) => {
+  await page.goto('/');
+  await expect(page).toHaveTitle(/Friedhats/);
+  await expect(page.locator('body')).toBeVisible();
+});
+
 
 /**
  * TODO #4: Implement 'should always pass - element check' test
@@ -63,55 +77,90 @@ import { test, expect } from '@playwright/test';
  * Test steps:
  * 1. Navigate to the base URL
  * 2. Wait for page to be fully loaded using waitForLoadState('networkidle')
- * 3. Find the 'Get started' link using getByRole()
- * 4. Assert that it's visible AND enabled
+ * 3. Find "View All Coffees" button using specific CSS classes                                                                                            │ │
+│* 4. Click the button to test navigation functionality                                                                                                    │ │
+│* 5. Verify successful navigation by checking for "Coffees" heading   
  * 
  * Key concepts:
- * - waitForLoadState ensures page is ready
- * - getByRole is more stable than CSS selectors
- * - Multiple assertions increase confidence
- * 
- * Why use getByRole?
- * - More accessible
- * - Less likely to break with UI changes
- * - Follows testing best practices
+ * - Key learnings from FriedHats implementation:                                                                                                            │ │
+│* - CSS class selectors can be very specific and reliable                                                                                                 │ │
+ * - Tailwind CSS classes (px-[15px], py-[20px]) need escaping in selectors                                                                                │ │
+ * - Combining class + text selectors (:has-text) solves ambiguity issues                                                                                  │ │
+ * - Real e-commerce sites have complex but predictable element structures  
+ *
+ * Why this approach works:                                                                                                                                │ │
+* - Uses exact classes from browser inspection                                                                                                            │ │
+* - Tests actual user workflow (click → navigate → verify)                                                                                                │ │
+* - Combines multiple verification methods for reliability
  */
+test('should always pass - element check', async ({ page }) => {
+  await page.goto('/');
+  await page.waitForLoadState('networkidle');
+  
+  // Target the "View All Coffees" div using its specific class
+  const viewAllCoffeesLink = page.locator('.bg-offwhite.px-\\[15px\\].py-\\[20px\\].text-center.font-display.text-xl.uppercase');
+  
+  await expect(viewAllCoffeesLink).toBeVisible();
+  await viewAllCoffeesLink.click();
+  
+  // Verify navigation by checking for "Coffees" specifically (combine class + text)
+  await expect(page.locator('.mr-4.hidden.font-display.text-xl.uppercase.md\\:inline:has-text("Coffees")')).toBeVisible();
+});
 
 /**
  * TODO #5: Implement 'should always pass - multiple assertions' test
  * 
  * Test steps:
- * 1. Navigate to '/docs/intro'
- * 2. Assert URL contains 'docs' using toHaveURL() with regex
- * 3. Assert h1 element contains 'Installation'
- * 4. Assert navbar is visible
+ * 1. Navigate to FriedHats homepage ('/')                                                                                                                │ │
+ * 2. Assert exact URL matches 'https://friedhats.com/'                                                                                                   │ │
+ * 3. Assert html element is visible (document root)                                                                                                      │ │
+ * 4. Assert body element is visible (page content container)    
  * 
- * Learning points:
- * - Chain multiple related assertions
- * - Use different types of assertions
- * - Test different aspects of the page
+ * Learning points for stable testing:                                                                                                                    │ │
+ * - Use exact URL matching for precise verification                                                                                                      │ │
+ * - Test fundamental DOM elements that always exist                                                                                                      │ │
+ * - Multiple simple assertions are better than complex ones                                                                                              │ │
+ * - Focus on elements guaranteed to be present 
  * 
- * Tip: Use page.locator('h1') and page.locator('.navbar')
+ * Why these assertions are reliable:                                                                                                                     │ │
+│* - HTML and body elements exist on every valid web page                                                                                                 │ │
+ * - URL verification ensures correct navigation                                                                                                          │ │
+ * - No dependency on changing UI elements or content 
  */
-
+test('should always pass - multiple assertions', async ({ page }) => {
+  await page.goto('/');
+  await expect(page).toHaveURL('https://friedhats.com/');
+  await expect(page.locator('html')).toBeVisible();
+  await expect(page.locator('body')).toBeVisible();
+});
+});
 /**
- * Reflection Questions for Learning:
+ * Key Learnings from FriedHats.com Testing:
  * 
- * 1. What makes these tests stable?
- *    - No random/time-dependent logic
- *    - Proper waiting strategies
- *    - Clear, specific assertions
+ * 1. What makes these tests stable for e-commerce sites?
+ *    - Test fundamental page elements (html, body, title)
+ *    - Use exact CSS classes found through browser inspection
+ *    - Verify core business functionality (product navigation)
+ *    - No random conditions or timing dependencies
  * 
- * 2. How do these tests differ from flaky tests?
- *    - Consistent behavior across runs
- *    - No race conditions
- *    - No external dependencies
+ * 2. How these stable tests differ from flaky tests?
+ *    - Consistent results across multiple runs
+ *    - Use reliable, unchanging DOM elements
+ *    - Proper waiting strategies (networkidle)
+ *    - Combine multiple verification methods for accuracy
  * 
- * 3. Best practices demonstrated:
- *    - Use semantic locators (getByRole, getByText)
- *    - Wait for specific conditions, not fixed timeouts
- *    - Test user-visible behavior
+ * 3. Real-world e-commerce testing practices demonstrated:
+ *    - CSS class targeting for complex Tailwind designs
+ *    - Escape special characters in selectors (\\[15px\\])
+ *    - Combine class + text selectors to avoid ambiguity
+ *    - Test actual user workflows (click → navigate → verify)
  * 
- * Testing Tip: Run these tests 10 times locally to verify stability:
+ * 4. Selector strategies that work:
+ *    - Exact class matching: .bg-offwhite.px-\\[15px\\]
+ *    - Text + class combination: :has-text("Coffees")
+ *    - Fundamental elements: html, body, title
+ * 
+ * Testing Tip: These tests should pass consistently when run:
  * npx playwright test stable-test.spec.ts --repeat-each=10
  */
+

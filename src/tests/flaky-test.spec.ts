@@ -17,6 +17,7 @@ import { test, expect } from '@playwright/test';
  */
 
 // TODO: Add describe block here
+test.describe('Potentially Flaky Tests', () => {
 
 /**
  * TODO #2: Add beforeEach hook for CTRF metadata
@@ -24,6 +25,12 @@ import { test, expect } from '@playwright/test';
  * Similar to stable tests, but use:
  * description: 'potentially-flaky'
  */
+test.beforeEach(async ({ }, testInfo) => {
+  testInfo.annotations.push({
+    type: 'category',
+    description: 'potentially-flaky',
+  });
+});
 
 /**
  * TODO #3: Implement 'flaky test - random failure' test
@@ -45,6 +52,23 @@ import { test, expect } from '@playwright/test';
  * Learning: This simulates non-deterministic test behavior
  * Real-world causes: Race conditions, test order dependencies
  */
+test('flaky test - random failure', async ({ page }, testInfo) => {
+  await page.goto('/');
+
+  const random = Math.random();
+
+  testInfo.attachments.push({
+    name: 'random-value',
+    body: Buffer.from(`Random value: ${random}`),
+    contentType: 'text/plain'
+  });
+
+  if (random < 0.3) {
+    throw new Error(`Random failure occurred: (value ${random.toFixed(3)})`);
+  }
+
+  await expect(page).toHaveTitle(/Friedhats/);
+});
 
 /**
  * TODO #4: Implement 'flaky test - timing dependent' test
@@ -66,7 +90,22 @@ import { test, expect } from '@playwright/test';
  * Real-world lesson: Fixed timeouts are unreliable
  * Better approach: Use proper wait conditions
  */
+test('flaky test - timing dependent', async ({ page }) => {
+  await page.goto('/');
 
+  const delay = Math.random() * 3000;
+
+  if (delay < 1000) {
+    // Too fast - might not be ready
+    const element = page.locator('h1');
+    await expect(element).toBeVisible({ timeout: 100 });
+  } else {
+    // Normal timing
+    await page.waitForTimeout(delay);
+    const element = page.locator('h1');
+    await expect(element).toBeVisible();
+  }
+});
 /**
  * TODO #5: Implement 'flaky test - network dependent' test
  * 
@@ -81,15 +120,22 @@ import { test, expect } from '@playwright/test';
  * 3. Navigate to page with 30-second timeout
  * 4. Assert h1 element is visible
  * 
- * Code structure:
- * if (Math.random() < 0.25) {
- *   await context.route('**/*', route => {
- *     setTimeout(() => route.continue(), 35000);
- *   });
- * }
  * 
  * Real-world causes: Slow APIs, network latency, service outages
  */
+test('flaky test - network dependent', async ({ page, context }) => {
+    // Simulate network issues randomly
+    if (Math.random() < 0.25) {
+      // 25% chance of network timeout
+      await context.route('**/*', route => {
+        setTimeout(() => route.continue(), 35000); // Exceed timeout
+      });
+    }
+    
+    await page.goto('/', { timeout: 30000 });
+    await expect(page.locator('h1')).toBeVisible();
+  });
+
 
 /**
  * TODO #6: Implement 'flaky test - race condition' test
@@ -112,7 +158,24 @@ import { test, expect } from '@playwright/test';
  * 
  * Real-world lesson: Always wait for all required elements
  */
+test('flaky test - race condition', async ({ page }) => { 
+  await page.goto('/'); 
 
+  const promises = [ 
+    page.waitForSelector('h1', { timeout: 5000 }), 
+    page.waitForSelector('nav', { timeout: 5000 }), 
+  ];
+
+  if (Math.random() < 0.4) { 
+    await Promise.race(promises); 
+  } else { 
+    await Promise.all(promises); 
+  } 
+
+  await expect(page.locator('h1')).toBeVisible(); 
+
+}); 
+});
 /**
  * Analysis Questions for Learning:
  * 

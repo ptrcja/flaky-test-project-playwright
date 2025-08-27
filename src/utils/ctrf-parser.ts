@@ -26,7 +26,28 @@
 export interface CTRFReport {
   // TODO: Implement the interface structure
   // Hint: The results property is the main container
+  results: {
+    tool: {
+      name: string;
+      version?: string;
+};
+summary: {
+  tests: number;
+  passed: number;
+  failed: number;
+  skipped: number;
+  pending: number;
+  other: number;
+  start: number;
+  stop: number;
+};
+tests: CTRFTest[];
+environment?: {
+  [key: string]: string;
+};
+};
 }
+
 
 /**
  * TODO #2: Define the CTRFTest interface
@@ -51,6 +72,22 @@ export interface CTRFReport {
 export interface CTRFTest {
   // TODO: Implement the interface structure
   // Remember to use union types for status
+  name: string;
+  status: 'passed' | 'failed' | 'skipped' | 'pending' | 'other';
+  duration: number;
+  start?: number;
+  stop?: number;
+  suite?: string;
+  filePath?: string;
+  message?: string;
+  trace?: string;
+  tags?: string[];
+  type?: string;
+  retries?: number; 
+  flaky?: boolean; 
+  customFields?: {
+    [key: string]: any;
+  };
 }
 
 /**
@@ -65,6 +102,7 @@ export class CTRFParser {
    * 
    * Purpose: Parse a JSON string into a CTRFReport object
    * 
+   * 
    * @param jsonContent - Raw JSON string from CTRF reporter
    * @returns Parsed CTRFReport object
    * 
@@ -78,7 +116,15 @@ export class CTRFParser {
   static parseReport(jsonContent: string): CTRFReport {
     // TODO: Implement JSON parsing with validation
     // Hint: Check for report.results and report.results.tests existence
-    throw new Error('Not implemented');
+    try {
+      const report = JSON.parse(jsonContent) as CTRFReport;
+      if (!report.results || !report.results.tests) {
+    throw new Error('Invalid CTRF format: missing results or tests');
+  }
+  return report;
+    } catch (error) {
+      throw new Error(`Failed to parse CTRF report: ${error}`);
+    }
   }
 
   /**
@@ -95,7 +141,7 @@ export class CTRFParser {
   static extractTests(report: CTRFReport): CTRFTest[] {
     // TODO: Extract and return tests array
     // Hint: Use the || operator for default empty array
-    throw new Error('Not implemented');
+    return report.results.tests || [];
   }
 
   /**
@@ -118,9 +164,11 @@ export class CTRFParser {
    */
   static getTestId(test: CTRFTest): string {
     // TODO: Create unique identifier
-    // Hint: Use template literals for clean string concatenation
-    throw new Error('Not implemented');
-  }
+    // Hint: Use template literals for clean string concatenation 
+    const suite = test.suite || 'default';
+    const file = test.filePath || 'unknown';
+    return `${file}::${suite}::${test.name}`;
+  } 
 
   /**
    * TODO #7: Implement groupTestsByIdentifier method
@@ -142,7 +190,15 @@ export class CTRFParser {
   static groupTestsByIdentifier(tests: CTRFTest[]): Map<string, CTRFTest[]> {
     // TODO: Implement grouping logic
     // Hint: Initialize empty array for new test IDs
-    throw new Error('Not implemented');
+    const groupedTests = new Map<string, CTRFTest[]>();
+    for (const test of tests) {
+      const testId = this.getTestId(test);
+      if (!groupedTests.has(testId)) {
+        groupedTests.set(testId, []);
+      }
+      groupedTests.get(testId)!.push(test);
+    }
+    return groupedTests;
   }
 
   /**
@@ -182,7 +238,22 @@ export class CTRFParser {
   } {
     // TODO: Calculate all statistics
     // Hint: Start by filtering durations > 0
-    throw new Error('Not implemented');
+    const durations = tests.map(t => t.duration).filter(d => d > 0); 
+    return {
+      totalRuns: tests.length,
+      passed: tests.filter(t => t.status === 'passed').length,
+      failed: tests.filter(t => t.status === 'failed').length,
+      skipped: tests.filter(t => t.status === 'skipped').length,
+      averageDuration: durations.length > 0 
+      ? durations.reduce((a, b) => a + b, 0) / durations.length 
+      : 0,
+      minDuration: durations.length > 0 ? Math.min(...durations) : 0,
+      maxDuration: durations.length > 0 ? Math.max(...durations) : 0,
+      failureMessages: tests
+      .filter(t => t.status === 'failed' && t.message)
+      .map(t => t.message!)
+    
+    };
   }
 }
 

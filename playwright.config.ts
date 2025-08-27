@@ -44,7 +44,7 @@ export default defineConfig({
 
   use: {
     // Base URL for testing
-    baseURL: 'https://playwright.dev',
+    baseURL: 'https://friedhats.com',
     
     // Collect trace on failure for debugging
     trace: 'retain-on-failure',
