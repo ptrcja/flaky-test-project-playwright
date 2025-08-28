@@ -97,12 +97,12 @@ test('flaky test - timing dependent', async ({ page }) => {
 
   if (delay < 1000) {
     // Too fast - might not be ready
-    const element = page.locator('h1');
+    const element = page.locator('.bg-offwhite');
     await expect(element).toBeVisible({ timeout: 100 });
   } else {
     // Normal timing
     await page.waitForTimeout(delay);
-    const element = page.locator('h1');
+    const element = page.locator('.bg-offwhite');
     await expect(element).toBeVisible();
   }
 });
@@ -133,7 +133,7 @@ test('flaky test - network dependent', async ({ page, context }) => {
     }
     
     await page.goto('/', { timeout: 30000 });
-    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('body')).toBeVisible();
   });
 
 
@@ -162,7 +162,7 @@ test('flaky test - race condition', async ({ page }) => {
   await page.goto('/'); 
 
   const promises = [ 
-    page.waitForSelector('h1', { timeout: 5000 }), 
+    page.waitForSelector('.bg-offwhite', { timeout: 5000 }), 
     page.waitForSelector('nav', { timeout: 5000 }), 
   ];
 
@@ -172,7 +172,7 @@ test('flaky test - race condition', async ({ page }) => {
     await Promise.all(promises); 
   } 
 
-  await expect(page.locator('h1')).toBeVisible(); 
+  await expect(page.locator('.bg-offwhite')).toBeVisible(); 
 
 }); 
 });

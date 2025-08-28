@@ -12,3 +12,5 @@ dist
 
 # Docs
 docs/
+/test-results/
+claude.md
