@@ -12,5 +12,6 @@ dist
 
 # Docs
 docs/
-/test-results/
+/test-results
 claude.md
+.last-run.json

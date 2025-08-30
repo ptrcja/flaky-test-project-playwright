@@ -93,16 +93,14 @@ test('flaky test - random failure', async ({ page }, testInfo) => {
 test('flaky test - timing dependent', async ({ page }) => {
   await page.goto('/');
 
-  const delay = Math.random() * 3000;
-
-  if (delay < 1000) {
-    // Too fast - might not be ready
-    const element = page.locator('.bg-offwhite');
-    await expect(element).toBeVisible({ timeout: 100 });
+  if (Math.random() < 0.5) {
+    // 50% chance: Check slower CMS image immediately (likely to fail)
+    const element = page.locator('img[alt="Lex brewing V60"]');
+    await expect(element).toBeVisible({ timeout: 10 }); // Extremely short timeout + slow element
   } else {
-    // Normal timing
-    await page.waitForTimeout(delay);
-    const element = page.locator('.bg-offwhite');
+    // 50% chance: Wait first then check (should pass)
+    await page.waitForTimeout(1000);
+    const element = page.locator('img[alt="Lex brewing V60"]');
     await expect(element).toBeVisible();
   }
 });
@@ -162,17 +160,19 @@ test('flaky test - race condition', async ({ page }) => {
   await page.goto('/'); 
 
   const promises = [ 
-    page.waitForSelector('.bg-offwhite', { timeout: 5000 }), 
-    page.waitForSelector('nav', { timeout: 5000 }), 
+    page.waitForSelector('.swiper-slide.hero-slide', { timeout: 3000 }),
+    page.waitForSelector('img[alt="Lex brewing V60"]', { timeout: 3000 }), 
   ];
 
-  if (Math.random() < 0.4) { 
-    await Promise.race(promises); 
-  } else { 
-    await Promise.all(promises); 
-  } 
+  await Promise.race(promises); 
 
-  await expect(page.locator('.bg-offwhite')).toBeVisible(); 
+  if (Math.random() < 0.5) {
+    // 50% chance: Assert hero slider loaded (might fail if Lex image won the race)
+    await expect(page.locator('.swiper-slide.hero-slide')).toBeVisible({ timeout: 1 });
+  } else {
+    // 50% chance: Assert Lex image loaded (might fail if hero slider won the race)
+    await expect(page.locator('img[alt="Lex brewing V60"]')).toBeVisible({ timeout: 1 });
+  }
 
 }); 
 });
