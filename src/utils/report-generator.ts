@@ -294,7 +294,7 @@ export class ReportGenerator {
    * - >= 90: 🟢 (Excellent)
    * - >= 70: 🟡 (Good)
    * - >= 50: 🟠 (Needs Attention)
-   * - < 50: 🔴 (Critical)
+   * - <  50: 🔴 (Critical)
    */
   private getHealthEmoji(score: number): string {
     // TODO: Return appropriate emoji
