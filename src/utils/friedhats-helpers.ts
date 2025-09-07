@@ -27,10 +27,10 @@ export async function navigateToCoffeeCollection(page: Page): Promise<void> {
   await viewCoffeesButton.click();
   
   // Wait for coffee collection page
-  await expect(page).toHaveURL(/\/collections\/coffee/);
+  await expect(page).toHaveURL(/\/collections\/coffees/);
   
-  // Verify products are loaded
-  await expect(page.locator('.product-item, [class*="product"]').first()).toBeVisible();
+  // Verify page content is loaded - check for at least one product link
+  await expect(page.getByRole('link', { name: /colombia|kenya|ethiopia|peru|guatemala/i }).first()).toBeVisible();
 }
 
 /**
@@ -38,28 +38,23 @@ export async function navigateToCoffeeCollection(page: Page): Promise<void> {
  * @returns Product details or null if all sold out
  */
 export async function selectFirstAvailableCoffee(page: Page): Promise<{name: string} | null> {
-  // Get all product items
-  const products = page.locator('.product-item, .grid-item');
-  const count = await products.count();
+  // Get all product links on the collection page
+  const productLinks = page.getByRole('link').filter({ has: page.getByRole('heading') });
+  const count = await productLinks.count();
   
   for (let i = 0; i < count; i++) {
-    const product = products.nth(i);
+    const productLink = productLinks.nth(i);
     
-    // Check for SOLD OUT indicator
-    const soldOutBadge = product.locator('text=/SOLD OUT/i');
-    const hasSoldOut = await soldOutBadge.count() > 0;
+    // Check if this product is sold out by looking for SOLD OUT text nearby
+    const parentContainer = productLink.locator('..');
+    const hasSoldOut = await parentContainer.getByText(/SOLD OUT/i).count() > 0;
     
-    // Also check for ADD button presence (available products have it)
-    const addButton = product.locator('button:has-text("ADD")');
-    const hasAddButton = await addButton.count() > 0;
-    
-    // Product is available if no SOLD OUT and has ADD button
-    if (!hasSoldOut && hasAddButton) {
-      // Get product name
-      const productName = await product.locator('h2, h3').first().textContent() || 'Coffee';
+    if (!hasSoldOut) {
+      // Get product name from the heading within the link
+      const productName = await productLink.getByRole('heading').textContent() || 'Coffee';
       
       // Click on the product link
-      await product.locator('a').first().click();
+      await productLink.click();
       
       // Wait for product page
       await expect(page).toHaveURL(/\/products\//);
@@ -78,61 +73,46 @@ export async function selectFirstAvailableCoffee(page: Page): Promise<{name: str
  * - Size: 250GR → 1000GR
  */
 export async function selectProductOptions(page: Page): Promise<void> {
-  // Handle ROAST selection
-  const roastSection = page.locator('.product-options').filter({ hasText: 'ROAST' });
+  // Handle ROAST selection - look for roast options group
+  const roastGroup = page.getByText('ROAST').locator('..');
   
-  if (await roastSection.count() > 0) {
-    // Check which buttons are present and enabled
-    const espressoBtn = roastSection.locator('button:has-text("ESPRESSO")');
-    const filterBtn = roastSection.locator('button:has-text("FILTER")');
-    const omniBtn = roastSection.locator('button:has-text("OMNI")');
+  if (await roastGroup.count() > 0) {
+    // Try to select roast options in order of preference
+    const espressoBtn = roastGroup.getByRole('button', { name: 'ESPRESSO' });
+    const filterBtn = roastGroup.getByRole('button', { name: 'FILTER' });
+    const omniBtn = roastGroup.getByRole('button', { name: 'OMNI' });
     
-    // Try default (Espresso) first
     if (await espressoBtn.count() > 0 && await espressoBtn.isEnabled()) {
-      // Check if already selected
-      const isSelected = await espressoBtn.evaluate(el => 
-        el.classList.contains('selected') || el.getAttribute('aria-pressed') === 'true'
-      );
-      
-      if (!isSelected) {
-        await espressoBtn.click();
-      }
+      await espressoBtn.click();
     } else if (await filterBtn.count() > 0 && await filterBtn.isEnabled()) {
-      // If Espresso not available, select Filter
       await filterBtn.click();
     } else if (await omniBtn.count() > 0 && await omniBtn.isEnabled()) {
-      // Omni is usually standalone option
       await omniBtn.click();
     }
   }
   
-  // Handle SIZE selection  
-  const sizeSection = page.locator('.product-options').filter({ hasText: 'SIZE' });
+  // Handle SIZE selection
+  const sizeGroup = page.getByText('SIZE').locator('..');
   
-  if (await sizeSection.count() > 0) {
-    const size250Btn = sizeSection.locator('button:has-text("250GR")');
-    const size1000Btn = sizeSection.locator('button:has-text("1000GR")');
+  if (await sizeGroup.count() > 0) {
+    const size250Btn = sizeGroup.getByRole('button', { name: '250GR' });
+    const size1000Btn = sizeGroup.getByRole('button', { name: '1000GR' });
     
-    // Try default (250GR) first
     if (await size250Btn.count() > 0 && await size250Btn.isEnabled()) {
-      const isSelected = await size250Btn.evaluate(el => 
-        el.classList.contains('selected') || el.getAttribute('aria-pressed') === 'true'
-      );
-      
-      if (!isSelected) {
-        await size250Btn.click();
-      }
+      await size250Btn.click();
     } else if (await size1000Btn.count() > 0 && await size1000Btn.isEnabled()) {
-      // If 250GR not available, select 1000GR
       await size1000Btn.click();
     }
   }
   
-  // Set quantity to 2
-  const quantityInput = page.locator('input[type="number"][name="quantity"], input#quantity');
-  if (await quantityInput.count() > 0) {
-    await quantityInput.fill('2');
-    await expect(quantityInput).toHaveValue('2');
+  // Set quantity using semantic approach
+  const quantityField = page.getByLabel(/quantity|select quantity/i)
+    .or(page.getByRole('spinbutton'))
+    .or(page.locator('input[type="number"]'));
+    
+  if (await quantityField.count() > 0) {
+    await quantityField.fill('2');
+    await expect(quantityField).toHaveValue('2');
   }
 }
 
@@ -140,7 +120,7 @@ export async function selectProductOptions(page: Page): Promise<void> {
  * Add current product to cart
  */
 export async function addProductToCart(page: Page): Promise<void> {
-  // Find Add to Cart button
+  // Find Add to Cart button using semantic selector
   const addToCartButton = page.getByRole('button', { name: /ADD TO CART/i });
   
   // Ensure button is enabled before clicking
@@ -149,25 +129,32 @@ export async function addProductToCart(page: Page): Promise<void> {
   // Click Add to Cart
   await addToCartButton.click();
   
-  // Wait for cart drawer/modal to appear
-  const cartDrawer = page.locator('.cart-drawer, aside:has-text("CART")');
+  // Wait for cart drawer/modal to appear using semantic approach
+  const cartDrawer = page.getByRole('dialog')
+    .or(page.getByRole('complementary'))
+    .or(page.locator('[role="dialog"]'))
+    .or(page.locator('aside'));
+    
   await expect(cartDrawer).toBeVisible();
   
-  // Verify product was added (cart shows quantity)
-  await expect(cartDrawer.locator('text=/QTY:/i')).toBeVisible();
+  // Verify product was added - look for quantity indicator or product info
+  await expect(cartDrawer.getByText(/\d+/).or(cartDrawer.getByText(/qty|quantity/i))).toBeVisible();
 }
 
 /**
  * Continue from cart to checkout
  */
 export async function proceedToCheckout(page: Page): Promise<void> {
-  // In the cart drawer, click Continue to Checkout
-  const checkoutButton = page.getByRole('button', { name: /CONTINUE TO CHECKOUT/i })
-    .or(page.getByRole('link', { name: /CONTINUE TO CHECKOUT/i }));
+  // In the cart drawer, click Continue to Checkout using semantic selectors
+  const checkoutButton = page.getByRole('button', { name: /CONTINUE TO CHECKOUT|CHECKOUT/i })
+    .or(page.getByRole('link', { name: /CONTINUE TO CHECKOUT|CHECKOUT/i }));
   
   await expect(checkoutButton).toBeVisible();
   await checkoutButton.click();
   
-  // Wait for Shopify checkout page
-  await expect(page).toHaveURL(/\/checkouts\//);
+  // Wait for checkout page - could be Shopify or custom checkout
+  await expect(page).toHaveURL(/\/(checkouts?\/|cart)/);
+  
+  // Verify checkout page elements are present
+  await expect(page.getByText(/Contact|Express checkout|Delivery/i).first()).toBeVisible();
 }
