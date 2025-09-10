@@ -38,8 +38,8 @@ export async function navigateToCoffeeCollection(page: Page): Promise<void> {
  * @returns Product details or null if all sold out
  */
 export async function selectFirstAvailableCoffee(page: Page): Promise<{name: string} | null> {
-  // Get all product links on the collection page
-  const productLinks = page.getByRole('link').filter({ has: page.getByRole('heading') });
+  // Get all product links on the collection page - using specific product names
+  const productLinks = page.getByRole('link', { name: /colombia|kenya|ethiopia|peru|guatemala/i });
   const count = await productLinks.count();
   
   for (let i = 0; i < count; i++) {
@@ -50,8 +50,8 @@ export async function selectFirstAvailableCoffee(page: Page): Promise<{name: str
     const hasSoldOut = await parentContainer.getByText(/SOLD OUT/i).count() > 0;
     
     if (!hasSoldOut) {
-      // Get product name from the heading within the link
-      const productName = await productLink.getByRole('heading').textContent() || 'Coffee';
+      // Get product name directly from link text
+      const productName = await productLink.textContent() || 'Coffee';
       
       // Click on the product link
       await productLink.click();

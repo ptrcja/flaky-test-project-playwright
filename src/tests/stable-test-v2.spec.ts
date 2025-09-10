@@ -53,8 +53,8 @@ test.describe('FriedHats Coffee Purchase Flow - Stable Tests', () => {
     await test.step('Navigate to coffee collection', async () => {
       await navigateToCoffeeCollection(page);
       
-      // Verify we're on coffee page with products
-      await expect(page.getByRole('heading', { name: /COFFEES/i })).toBeVisible();
+      // Verify we're on coffee page with products - same as in helper
+      await expect(page.getByRole('link', { name: /colombia|kenya|ethiopia|peru|guatemala/i }).first()).toBeVisible();
     });
     
     await test.step('Select available coffee', async () => {
@@ -65,8 +65,9 @@ test.describe('FriedHats Coffee Purchase Flow - Stable Tests', () => {
         return;
       }
       
-      // Verify product page elements
-      await expect(page.getByRole('heading', { name: selectedCoffee.name })).toBeVisible();
+      // Verify product page elements - check for product name (case-insensitive)
+      const productNameRegex = new RegExp(selectedCoffee.name, 'i');
+      await expect(page.getByText(productNameRegex).first()).toBeVisible();
       await expect(page.getByText(/€\d+\.\d+|\$\d+\.\d+/).first()).toBeVisible();
     });
     
@@ -74,8 +75,8 @@ test.describe('FriedHats Coffee Purchase Flow - Stable Tests', () => {
       await selectProductOptions(page);
       
       // Verify options are available and at least one selection is possible
-      const roastOptions = page.getByRole('button', { name: /ESPRESSO|FILTER|OMNI/i });
-      const sizeOptions = page.getByRole('button', { name: /250GR|1000GR/i });
+      const roastOptions = page.getByRole('button', { name: /Espresso|Filter|Omni/i });
+      const sizeOptions = page.getByRole('button', { name: /250gr|1000gr/i });
       const hasOptions = (await roastOptions.count()) > 0 || (await sizeOptions.count()) > 0;
       expect(hasOptions).toBeTruthy();
     });
