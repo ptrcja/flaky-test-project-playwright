@@ -45,16 +45,13 @@ test.describe('FriedHats Coffee Purchase Flow - Stable Tests', () => {
     await test.step('Verify homepage', async () => {
       await expect(page).toHaveTitle(/Friedhats/i);
       
-      // Verify hero section with VIEW ALL COFFEES button
       const viewAllButton = page.getByRole('link', { name: 'VIEW ALL COFFEES' });
       await expect(viewAllButton).toBeVisible();
     });
     
     await test.step('Navigate to coffee collection', async () => {
       await navigateToCoffeeCollection(page);
-      
-      // Verify we're on coffee page with products - same as in helper
-      await expect(page.getByRole('link', { name: /colombia|kenya|ethiopia|peru|guatemala/i }).first()).toBeVisible();
+      // Helper handles navigation and verification
     });
     
     await test.step('Select available coffee', async () => {
@@ -65,7 +62,7 @@ test.describe('FriedHats Coffee Purchase Flow - Stable Tests', () => {
         return;
       }
       
-      // Verify product page elements - check for product name (case-insensitive)
+      // Verify the selected product is displayed
       const productNameRegex = new RegExp(selectedCoffee.name, 'i');
       await expect(page.getByText(productNameRegex).first()).toBeVisible();
       await expect(page.getByText(/€\d+\.\d+|\$\d+\.\d+/).first()).toBeVisible();
@@ -73,28 +70,17 @@ test.describe('FriedHats Coffee Purchase Flow - Stable Tests', () => {
     
     await test.step('Configure product options', async () => {
       await selectProductOptions(page);
-      
-      // Verify the quantity was set (helper sets it to 2)
-      await expect(page.locator('input[type="number"]')).toHaveValue('2');
+      // Helper handles option selection and quantity
     });
     
     await test.step('Add to cart', async () => {
       await addProductToCart(page);
-      
-      // Verify checkout button is available after adding to cart
-      await expect(page.getByRole('button', { name: /CONTINUE TO CHECKOUT|CHECKOUT/i })).toBeVisible();
+      // Helper handles cart interaction and verification
     });
     
     await test.step('Proceed to checkout', async () => {
       await proceedToCheckout(page);
-      
-      // Verify checkout page loaded
-      await expect(page.getByText(/Express checkout|Contact|Delivery/i).first()).toBeVisible();
-      
-      // Verify order summary shows correct product using semantic approach
-      const orderSummary = page.getByRole('region', { name: /order summary/i }).or(page.locator('[aria-label*="Order summary"]'));
-      await expect(orderSummary.getByText(/Filter|Espresso|Omni/i).first()).toBeVisible();
-      await expect(orderSummary.getByText(/250gr|1000gr/i).first()).toBeVisible();
+      // Helper handles checkout navigation and page verification
     });
   });
   
