@@ -129,16 +129,13 @@ export async function addProductToCart(page: Page): Promise<void> {
   // Click Add to Cart
   await addToCartButton.click();
   
-  // Wait for cart drawer/modal to appear using semantic approach
-  const cartDrawer = page.getByRole('dialog')
-    .or(page.getByRole('complementary'))
-    .or(page.locator('[role="dialog"]'))
-    .or(page.locator('aside'));
+  // Wait for cart drawer to appear - target the specific cart drawer
+  const cartDrawer = page.locator('aside.is-cart');
     
   await expect(cartDrawer).toBeVisible();
   
   // Verify product was added - look for quantity indicator or product info
-  await expect(cartDrawer.getByText(/\d+/).or(cartDrawer.getByText(/qty|quantity/i))).toBeVisible();
+  await expect(cartDrawer.getByText(/\d+/).or(cartDrawer.getByText(/qty|quantity/i)).first()).toBeVisible();
 }
 
 /**
