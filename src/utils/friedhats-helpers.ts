@@ -10,10 +10,19 @@ import { Page, expect } from '@playwright/test';
  * Dismiss privacy/cookie banner if it appears
  */
 export async function dismissPrivacyBanner(page: Page): Promise<void> {
-  const privacyDecline = page.locator('button#shopify-pc__banner__btn-decline');
-  if (await privacyDecline.count() > 0) {
-    await privacyDecline.click();
-    await expect(privacyDecline).toBeHidden();
+  const banner = page.getByRole('alertdialog', { name: /we value your privacy/i });
+
+  if (await banner.isVisible()) {
+    const decline = banner.getByRole('button', { name: /decline/i });
+    const accept = banner.getByRole('button', { name: /accept/i });
+
+    if (await decline.isVisible()) {
+      await decline.click();
+    } else if (await accept.isVisible()) {
+      await accept.click();
+    }
+
+    await expect(banner).toBeHidden();
   }
 }
 
