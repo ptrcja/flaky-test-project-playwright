@@ -49,7 +49,7 @@ export async function navigateToCoffeeCollection(page: Page): Promise<void> {
 export async function selectFirstAvailableCoffee(page: Page): Promise<{name: string} | null> {
   // Get all product links on the collection page - using specific product names
   const productLinks = page.getByRole('link', { name: /colombia|kenya|ethiopia|peru|guatemala/i });
-  const count = await productLinks.count();
+  const count = await productLinks.count(); 
   
   for (let i = 0; i < count; i++) {
     const productLink = productLinks.nth(i);
