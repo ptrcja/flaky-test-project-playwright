@@ -43,6 +43,22 @@ import { CTRFParser, CTRFReport, CTRFTest } from './ctrf-parser';
  */
 export interface TestStatistics {
   // TODO: Implement interface
+  testId: string;
+  name: string;
+  suite: string;
+  file: string;
+  totalRuns: number;
+  passed: number;
+  failed: number;
+  skipped: number;
+  failureRate: number;
+  successRate: number;
+  isFlaky: boolean;
+  averageDuration: number;
+  durationVariance: number;
+  failureMessages: string[];
+  tags: string[];
+  confidence: number; // Confidence in flaky detection
 }
 
 /**
@@ -63,6 +79,10 @@ export interface TestStatistics {
  */
 export interface FlakyDetectionConfig {
   // TODO: Implement interface
+  minRuns: number;
+  flakyThresholdMin: number;
+  flakyThresholdMax: number;
+  durationVarianceThreshold: number;
 }
 
 /**
@@ -80,7 +100,8 @@ export class FlakyDetector {
    * 
    * Tip: Initialize allTestRuns as empty array
    */
-  
+  private allTestRuns: CTRFTest[] = [];
+  private config: FlakyDetectionConfig;
   /**
    * TODO #5: Implement constructor
    * 
@@ -99,6 +120,13 @@ export class FlakyDetector {
    */
   constructor(config?: Partial<FlakyDetectionConfig>) {
     // TODO: Implement constructor
+    this.config = {
+      minRuns: 5,
+      flakyThresholdMin: 0.1,
+      flakyThresholdMax: 0.9,
+      durationVarianceThreshold: 0.5,
+      ...config
+    };
   }
 
   /**
@@ -127,8 +155,48 @@ export class FlakyDetector {
    */
   async runDetection(numberOfRuns: number = 10): Promise<TestStatistics[]> {
     // TODO: Implement main detection logic
-    throw new Error('Not implemented');
+    console.log(` Starting flaky detection with ${numberOfRuns} runs...`);
+    console.log(` Configuration:`, this.config);
+    
+    // Create reports directory structure
+    this.setupDirectories();
+    
+    // Run tests multiple times
+    for (let i = 1; i <= numberOfRuns; i++) {
+      console.log(`\n Test Run ${i}/${numberOfRuns}`);
+      console.log(`${'='.repeat(40)}`);
+      
+      const runId = `run-${i}-${Date.now()}`;
+      
+      try {
+        // Set environment variable for CTRF custom fields
+        process.env.RUN_ID = runId;
+        
+        // Run Playwright tests with CTRF reporter
+        execSync(
+          `npx playwright test --reporter=playwright-ctrf-json-reporter`,
+          { 
+            stdio: 'inherit',
+            env: { ...process.env, RUN_ID: runId }
+          }
+        );
+      } catch (error) {
+        // Tests might fail, but we continue collecting data
+        console.log(`Run ${i} completed with test failures (this is expected)`);
+      }
+      
+      // Parse and store the CTRF results
+      this.collectRunResults(i);
+      
+      // Brief pause between runs to avoid resource conflicts
+      await this.sleep(1000);
+    }
+    
+    // Analyze all collected results
+    return this.analyzeResults();
+
   }
+
 
   /**
    * TODO #7: Implement setupDirectories method
@@ -149,6 +217,14 @@ export class FlakyDetector {
    */
   private setupDirectories(): void {
     // TODO: Create directory structure
+    const directories = ['reports/ctrf', 'reports/analysis', 'reports/runs'];
+
+    directories.forEach(dir => {
+      const fullPath = path.join(process.cwd(), dir);
+      if (!fs.existsSync(fullPath)) {
+        fs.mkdirSync(fullPath, { recursive: true });
+      }
+    });
   }
 
   /**
@@ -173,7 +249,44 @@ export class FlakyDetector {
    */
   private collectRunResults(runNumber: number): void {
     // TODO: Collect and store test results
-  }
+    try {
+      const reportPath = path.join(process.cwd(), 'reports/ctrf/ctrf-report.json'); 
+      if (fs.existsSync(reportPath)) { 
+        console.error (`CTRF report not found for run ${runNumber}`);
+        return;
+    }
+    const reportContent = fs.readFileSync(reportPath, 'utf-8'); 
+    const report = CTRFParser.parseReport(reportContent);  
+
+     // Extract tests and add run metadata
+     const tests = CTRFParser.extractTests(report);
+     tests.forEach(test => {
+       test.customFields = {
+         ...test.customFields,
+         runNumber
+       }; 
+     }); 
+
+     // Store all test results
+     this.allTestRuns.push(...tests);
+      
+     // Archive this run's report
+     const archivePath = path.join(
+       process.cwd(), 
+       `reports/runs/run-${runNumber}.json`
+     );
+     fs.copyFileSync(reportPath, archivePath);
+     
+     // Log summary
+     console.log(`   Collected ${tests.length} test results from run ${runNumber}`);
+     console.log(`   Passed: ${report.results.summary.passed}`);
+     console.log(`   Failed: ${report.results.summary.failed}`);
+     console.log(`   Skipped: ${report.results.summary.skipped}`);
+     
+   } catch (error) {
+     console.error(`Error collecting results from run ${runNumber}:`, error);
+   }
+ }   
 
   /**
    * TODO #9: Implement analyzeResults method
@@ -195,7 +308,24 @@ export class FlakyDetector {
    */
   private analyzeResults(): TestStatistics[] {
     // TODO: Analyze all test runs
-    throw new Error('Not implemented');
+   console.log(`Analyzing test results...`); 
+  // Group tests by unique identifier
+  const groupedTests = CTRFParser.groupTestsByIdentifier(this.allTestRuns);
+    
+  const statistics: TestStatistics[] = [];
+  
+  for (const [testId, tests] of groupedTests) {
+    const stats = this.calculateTestStatistics(testId, tests);
+    statistics.push(stats);
+  }
+  
+  // Sort by flakiness (flaky tests first, then by failure rate)
+  return statistics.sort((a, b) => {
+    if (a.isFlaky && !b.isFlaky) return -1;
+    if (!a.isFlaky && b.isFlaky) return 1;
+    return b.failureRate - a.failureRate;
+  });
+
   }
 
   /**
@@ -222,7 +352,51 @@ export class FlakyDetector {
    */
   private calculateTestStatistics(testId: string, tests: CTRFTest[]): TestStatistics {
     // TODO: Calculate statistics for a test
-    throw new Error('Not implemented');
+    const stats = CTRFParser.calculateStatistics(tests);
+    const firstTest = tests[0];
+    
+    // Calculate failure and success rates
+    const failureRate = stats.totalRuns > 0 ? stats.failed / stats.totalRuns : 0;
+    const successRate = stats.totalRuns > 0 ? stats.passed / stats.totalRuns : 0;
+    
+    // Calculate duration variance (indicator of timing issues)
+    const durationVariance = this.calculateDurationVariance(tests);
+    
+    // Determine if test is flaky
+    const isFlaky = this.isTestFlaky(
+      stats.totalRuns,
+      failureRate,
+      durationVariance
+    );
+    
+    // Calculate confidence in flaky detection
+    const confidence = this.calculateConfidence(
+      stats.totalRuns,
+      failureRate,
+      durationVariance
+    );
+    
+    // Extract unique failure messages
+    const uniqueFailures = [...new Set(stats.failureMessages)];
+    
+    return {
+      testId,
+      name: firstTest.name,
+      suite: firstTest.suite || 'default',
+      file: firstTest.filePath || 'unknown',
+      totalRuns: stats.totalRuns,
+      passed: stats.passed,
+      failed: stats.failed,
+      skipped: stats.skipped,
+      failureRate,
+      successRate,
+      isFlaky,
+      averageDuration: stats.averageDuration,
+      durationVariance,
+      failureMessages: uniqueFailures,
+      tags: firstTest.tags || [],
+      confidence
+    };
   }
 
   /**
@@ -248,7 +422,17 @@ export class FlakyDetector {
    */
   private calculateDurationVariance(tests: CTRFTest[]): number {
     // TODO: Calculate duration variance
-    throw new Error('Not implemented');
+    const durations = tests.map(t => t.duration).filter(d => d > 0);
+    
+    if (durations.length < 2) return 0;
+    
+    const avg = durations.reduce((a, b) => a + b, 0) / durations.length;
+    const variance = durations.reduce((sum, duration) => {
+      return sum + Math.pow(duration - avg, 2);
+    }, 0) / durations.length;
+    
+    // Return coefficient of variation (normalized variance)
+    return avg > 0 ? Math.sqrt(variance) / avg : 0;
   }
 
   /**
@@ -280,7 +464,20 @@ export class FlakyDetector {
     durationVariance: number
   ): boolean {
     // TODO: Determine flakiness
-    throw new Error('Not implemented');
+      // Not enough data
+      if (totalRuns < this.config.minRuns) {
+        return false;
+      }
+      
+      // Check failure rate is in flaky range
+      const failureRateFlaky = 
+        failureRate > this.config.flakyThresholdMin && 
+        failureRate < this.config.flakyThresholdMax;
+      
+      // Check for high duration variance (timing issues)
+      const timingFlaky = durationVariance > this.config.durationVarianceThreshold;
+      
+      return failureRateFlaky || timingFlaky;
   }
 
   /**
@@ -312,8 +509,23 @@ export class FlakyDetector {
     failureRate: number,
     durationVariance: number
   ): number {
+    let confidence = 0;
     // TODO: Calculate confidence score
-    throw new Error('Not implemented');
+   // More runs = higher confidence
+    const runConfidence = Math.min(totalRuns / 20, 1) * 0.4;
+    confidence += runConfidence;
+    
+    // Clear flaky pattern = higher confidence
+    if (failureRate > 0.2 && failureRate < 0.8) {
+      confidence += 0.3;
+    }
+    
+    // High variance = higher confidence in timing issues
+    if (durationVariance > this.config.durationVarianceThreshold) {
+      confidence += 0.3;
+    }
+    
+    return Math.min(confidence, 1);
   }
 
   /**
@@ -329,7 +541,7 @@ export class FlakyDetector {
    */
   private sleep(ms: number): Promise<void> {
     // TODO: Implement sleep
-    throw new Error('Not implemented');
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   /**
@@ -350,6 +562,9 @@ export class FlakyDetector {
    */
   exportRawData(): void {
     // TODO: Export raw test data
+    const exportPath = path.join(process.cwd(), 'reports/analysis/raw-test-data.json');
+    fs.writeFileSync(exportPath, JSON.stringify(this.allTestRuns, null, 2));
+    console.log(`Raw test data exported to ${exportPath}`);
   }
 }
 
