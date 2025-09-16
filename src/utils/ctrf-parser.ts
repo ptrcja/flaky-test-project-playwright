@@ -258,7 +258,7 @@ export class CTRFParser {
 }
 
 /**
- * Learning Notes for Junior Developer:
+ * Learning Notes :
  * 
  * 1. Why static methods?
  *    - We don't need to maintain state between method calls
