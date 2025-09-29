@@ -40,14 +40,14 @@ async function main() {
    * 
    * Create an ASCII art banner or formatted header.
    * 
-   * Example:
-   * console.log(`
-   * ╔════════════════════════════════════════════╗
-   * ║     🔍 Playwright Flaky Test Detector      ║
-   * ║         Powered by CTRF Reporter           ║
-   * ╚════════════════════════════════════════════╝
-   * `);
-   */
+   
+    console.log(`
+   ╔════════════════════════════════════════════╗
+   ║     🔍 Playwright Flaky Test Detector      ║
+   ║         Powered by CTRF Reporter           ║
+   ╚════════════════════════════════════════════╝
+   `);
+   
 
   /**
    * TODO #3: Parse command-line arguments
@@ -65,6 +65,9 @@ async function main() {
    * - Ensure numberOfRuns is positive
    * - Check if configFile exists before loading
    */
+  const args = process.argv.slice(2);
+  const numberOfRuns = parseInt(args[0]) || 10;
+  const configFile = args[1];
 
   /**
    * TODO #4: Load configuration file if provided
@@ -79,6 +82,11 @@ async function main() {
    * - Wrap in try-catch
    * - Exit with error if config is invalid
    */
+   let config = {};
+   if (configFile && fs.existsSync(configFile)) {
+    console.log(`Loading configuration from ${configFile}`);
+    config = JSON.parse(fs.readFileSync(configFile, 'utf-8'));
+   }
 
   /**
    * TODO #5: Initialize FlakyDetector with configuration
@@ -87,7 +95,7 @@ async function main() {
    * 
    * Pass the loaded config or empty object
    */
-
+    const detector = new FlakyDetector(config);
   /**
    * TODO #6: Run detection process
    * 
@@ -101,14 +109,17 @@ async function main() {
    *   process.exit(2);
    * }
    */
-
+  try { 
+   
+   const statistics = await detector.runDetection(numberOfRuns);
   /**
    * TODO #7: Export raw data for analysis
    * 
    * Call detector.exportRawData() to save all test runs
    * This is useful for debugging and manual analysis
    */
-
+    
+   detector.exportRawData(); 
   /**
    * TODO #8: Generate reports
    * 
@@ -122,7 +133,13 @@ async function main() {
    * 
    * Call generator.generateReports(statistics)
    */
-
+  const generator = new ReportGenerator({
+    generateHtml: true,
+    generateMarkdown: true,
+    generateJson: true,
+    generateCsv: true
+  });
+  generator.generateReports(statistics);
   /**
    * TODO #9: Display console summary
    * 
@@ -137,7 +154,13 @@ async function main() {
    * console.log('═'.repeat(50));
    * console.log(`Total tests analyzed: ${statistics.length}`);
    * // etc...
-   */
+   */ 
+   console.log('\n📊 Detection Summary'); 
+   console.log('═'.repeat(50)); 
+
+   const flakyTests = statistics.filter(s => s.isFlaky);
+   const stableTests = statistics.filter(s => !s.isFlaky && s.failureRate === 0);
+   const failingTests = statistics.filter(s => s.failureRate >= 0.9);
 
   /**
    * TODO #10: Display flaky test details
@@ -157,7 +180,16 @@ async function main() {
    * console.log(`   Suite: ${test.suite}`);
    * // etc...
    */
+   console.log(`Total tests analyzed: ${statistics.length}`); 
+   console.log(`✅ Stable tests: ${stableTests.length}`);
+   console.log(`🔴 Flaky tests: ${flakyTests.length}`);
+   console.log(`❌ Consistently failing tests: ${failingTests.length}`);
 
+   if (flakyTests.length > 0) { 
+    console.log('\n⚠️  Flaky Tests Detected:');
+    console.log('─'.repeat(50)); 
+
+  
   /**
    * TODO #11: Provide recommendations
    * 
@@ -169,7 +201,25 @@ async function main() {
    * 4. Consider retry mechanisms
    * 5. Ensure test isolation
    */
+   flakyTests.forEach((test, index) => {
+    console.log(`\n${index + 1}. ${test.name}`);
+    console.log(`   Suite: ${test.suite}`);
+    console.log(`   File: ${test.file}`);
+    console.log(`   Failure Rate: ${(test.failureRate * 100).toFixed(1)}%`);
+    console.log(`   Duration Variance: ${(test.durationVariance * 100).toFixed(1)}%`);
+    console.log(`   Confidence: ${(test.confidence * 100).toFixed(0)}%`); 
 
+    if (test.failureMessages.length > 0) {
+      console.log(`   Common Failure: ${test.failureMessages[0].substring(0, 80)}...`);
+    }
+  });
+  console.log('\n💡 Recommended Actions:');
+  console.log('─'.repeat(50));
+  console.log('1. Review the HTML report for detailed analysis');
+  console.log('2. Fix tests with highest confidence scores first');
+  console.log('3. Look for patterns in failure messages');
+  console.log('4. Consider adding retry mechanisms for network-dependent tests');
+  console.log('5. Ensure proper test isolation and cleanup'); 
   /**
    * TODO #12: Set exit code
    * 
@@ -185,8 +235,17 @@ async function main() {
    *   process.exit(0);
    * }
    */
+ process.exit(1);
+   } else {
+    console.log('\n✅ Excellent! No flaky tests detected.');
+    console.log('Your test suite appears to be stable and reliable.');
+    process.exit(0);
+   }
+} catch (error) {
+  console.error('\n❌Error during detection:', error);
+  process.exit(2);
 }
-
+}
 /**
  * TODO #13: Set up module execution
  * 
@@ -200,7 +259,11 @@ async function main() {
  * 
  * export { main };
  */
+if (require.main === module) {
+  main().catch(console.error);
+}
 
+export { main };
 /**
  * CLI Usage Examples:
  * 
