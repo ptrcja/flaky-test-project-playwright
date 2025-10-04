@@ -20,7 +20,7 @@ import {
   selectProductOptions,
   addProductToCart,
   proceedToCheckout
-} from '../utils/friedhats-helpers';
+} from '../utils/friedhats-helpers'; 
 // ============ TEST SUITE ============
 
 test.describe('FriedHats Coffee Purchase Flow - Stable Tests', () => {

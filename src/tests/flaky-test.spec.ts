@@ -16,7 +16,7 @@
  * DO NOT USE THESE PATTERNS IN REAL TESTS!
  */
 
-import { test, expect, Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import {
   dismissPrivacyBanner,
   navigateToCoffeeCollection,

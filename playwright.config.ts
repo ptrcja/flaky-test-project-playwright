@@ -27,7 +27,6 @@ export default defineConfig({
     [
       'playwright-ctrf-json-reporter',
       {
-        outputFile: 'reports/ctrf/ctrf-report.json',
         // CTRF specific options
         minimal: false, // Full details for analysis
         testType: 'e2e', // Categorize as end-to-end tests

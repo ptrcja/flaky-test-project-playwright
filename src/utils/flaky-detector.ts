@@ -217,7 +217,7 @@ export class FlakyDetector {
    */
   private setupDirectories(): void {
     // TODO: Create directory structure
-    const directories = ['reports/ctrf', 'reports/analysis', 'reports/runs'];
+    const directories = ['reports/analysis', 'reports/runs'];
 
     directories.forEach(dir => {
       const fullPath = path.join(process.cwd(), dir);
@@ -250,12 +250,12 @@ export class FlakyDetector {
   private collectRunResults(runNumber: number): void {
     // TODO: Collect and store test results
     try {
-      const reportPath = path.join(process.cwd(), 'reports/ctrf/ctrf-report.json'); 
-      if (fs.existsSync(reportPath)) { 
-        console.error (`CTRF report not found for run ${runNumber}`);
+      const reportPath = path.join(process.cwd(), 'ctrf/ctrf-report.json');
+      if (!fs.existsSync(reportPath)) {
+        console.error(`CTRF report not found for run ${runNumber}`);
         return;
-    }
-    const reportContent = fs.readFileSync(reportPath, 'utf-8'); 
+      }
+      const reportContent = fs.readFileSync(reportPath, 'utf-8'); 
     const report = CTRFParser.parseReport(reportContent);  
 
      // Extract tests and add run metadata
