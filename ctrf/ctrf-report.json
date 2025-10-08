@@ -1,8 +1,8 @@
 {
   "reportFormat": "CTRF",
   "specVersion": "0.0.0",
-  "reportId": "9f12e84d-f148-4675-a2df-ebda39517aa0",
-  "timestamp": "2025-10-04T14:42:51.089Z",
+  "reportId": "61e071dd-981a-42bd-a5aa-a036916f5bf1",
+  "timestamp": "2025-10-08T15:12:26.388Z",
   "generatedBy": "playwright-ctrf-json-reporter",
   "results": {
     "tool": {
@@ -10,23 +10,25 @@
     },
     "summary": {
       "tests": 10,
-      "passed": 5,
-      "failed": 5,
+      "passed": 1,
+      "failed": 9,
       "pending": 0,
       "skipped": 0,
       "other": 0,
-      "start": 1759588971109,
-      "stop": 1759589009488,
+      "start": 1759936346412,
+      "stop": 1759936446193,
       "suites": 0
     },
     "tests": [
       {
         "name": "flaky test - race condition with navigation",
-        "status": "passed",
-        "duration": 6495,
-        "start": 1759588971,
-        "stop": 1759588977,
-        "rawStatus": "passed",
+        "status": "failed",
+        "duration": 32601,
+        "start": 1759936346,
+        "stop": 1759936379,
+        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+        "trace": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+        "rawStatus": "timedOut",
         "tags": [],
         "type": "e2e",
         "filePath": "/Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts",
@@ -35,15 +37,32 @@
         "steps": [
           {
             "name": "Navigate with race condition",
-            "status": "passed"
-          },
-          {
-            "name": "Select product with timing issues",
-            "status": "passed"
+            "status": "failed"
           }
         ],
         "suite": "chromium > flaky-test.spec.ts > FriedHats Coffee Purchase Flow - Realistic Flaky Tests",
-        "attachments": [],
+        "attachments": [
+          {
+            "name": "screenshot",
+            "contentType": "image/png",
+            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-953a1-e-condition-with-navigation-chromium/test-failed-1.png"
+          },
+          {
+            "name": "video",
+            "contentType": "video/webm",
+            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-953a1-e-condition-with-navigation-chromium/video.webm"
+          },
+          {
+            "name": "error-context",
+            "contentType": "text/markdown",
+            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-953a1-e-condition-with-navigation-chromium/error-context.md"
+          },
+          {
+            "name": "trace",
+            "contentType": "application/zip",
+            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-953a1-e-condition-with-navigation-chromium/trace.zip"
+          }
+        ],
         "stdout": [],
         "stderr": [],
         "extra": {
@@ -57,11 +76,13 @@
       },
       {
         "name": "flaky test - network sensitivity and timing",
-        "status": "passed",
-        "duration": 22914,
-        "start": 1759588971,
-        "stop": 1759588994,
-        "rawStatus": "passed",
+        "status": "failed",
+        "duration": 48275,
+        "start": 1759936346,
+        "stop": 1759936395,
+        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+        "trace": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+        "rawStatus": "timedOut",
         "tags": [],
         "type": "e2e",
         "filePath": "/Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts",
@@ -74,11 +95,22 @@
           },
           {
             "name": "Quick product selection",
-            "status": "passed"
+            "status": "failed"
           }
         ],
         "suite": "chromium > flaky-test.spec.ts > FriedHats Coffee Purchase Flow - Realistic Flaky Tests",
-        "attachments": [],
+        "attachments": [
+          {
+            "name": "video",
+            "contentType": "video/webm",
+            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-f6fbc-work-sensitivity-and-timing-chromium/video.webm"
+          },
+          {
+            "name": "trace",
+            "contentType": "application/zip",
+            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-f6fbc-work-sensitivity-and-timing-chromium/trace.zip"
+          }
+        ],
         "stdout": [],
         "stderr": [],
         "extra": {
@@ -93,9 +125,9 @@
       {
         "name": "flaky test - state dependency issues",
         "status": "failed",
-        "duration": 36727,
-        "start": 1759588971,
-        "stop": 1759589008,
+        "duration": 47935,
+        "start": 1759936346,
+        "stop": 1759936394,
         "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
         "trace": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
         "rawStatus": "timedOut",
@@ -113,19 +145,9 @@
         "suite": "chromium > flaky-test.spec.ts > FriedHats Coffee Purchase Flow - Realistic Flaky Tests",
         "attachments": [
           {
-            "name": "screenshot",
-            "contentType": "image/png",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-f0c14-t---state-dependency-issues-chromium/test-failed-1.png"
-          },
-          {
             "name": "video",
             "contentType": "video/webm",
             "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-f0c14-t---state-dependency-issues-chromium/video.webm"
-          },
-          {
-            "name": "error-context",
-            "contentType": "text/markdown",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-f0c14-t---state-dependency-issues-chromium/error-context.md"
           },
           {
             "name": "trace",
@@ -147,9 +169,9 @@
       {
         "name": "flaky test - promise.all misuse with actions",
         "status": "passed",
-        "duration": 6532,
-        "start": 1759588971,
-        "stop": 1759588977,
+        "duration": 6600,
+        "start": 1759936346,
+        "stop": 1759936353,
         "rawStatus": "passed",
         "tags": [],
         "type": "e2e",
@@ -173,13 +195,12 @@
       {
         "name": "flaky test - insufficient wait for dynamic content",
         "status": "failed",
-        "duration": 9881,
-        "start": 1759588978,
-        "stop": 1759588988,
-        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/\\/products\\//\u001b[39m\nReceived string:  \u001b[31m\"https://friedhats.com/\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://friedhats.com/\"\u001b[22m\n",
-        "trace": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/\\/products\\//\u001b[39m\nReceived string:  \u001b[31m\"https://friedhats.com/\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://friedhats.com/\"\u001b[22m\n\n    at selectFirstAvailableCoffee (/Users/pati/flaky-test-detector/src/utils/friedhats-helpers.ts:69:26)\n    at /Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts:196:30\n    at /Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts:194:5",
-        "snippet": "\u001b[90m   at \u001b[39m../utils/friedhats-helpers.ts:69\n\n\u001b[0m \u001b[90m 67 |\u001b[39m       \n \u001b[90m 68 |\u001b[39m       \u001b[90m// Wait for product page\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 69 |\u001b[39m       \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/\\/products\\//\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                          \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 70 |\u001b[39m       \n \u001b[90m 71 |\u001b[39m       \u001b[36mreturn\u001b[39m { name\u001b[33m:\u001b[39m productName\u001b[33m.\u001b[39mtrim() }\u001b[33m;\u001b[39m\n \u001b[90m 72 |\u001b[39m     }\u001b[0m",
-        "rawStatus": "failed",
+        "duration": 48021,
+        "start": 1759936353,
+        "stop": 1759936401,
+        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+        "trace": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+        "rawStatus": "timedOut",
         "tags": [],
         "type": "e2e",
         "filePath": "/Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts",
@@ -198,19 +219,9 @@
         "suite": "chromium > flaky-test.spec.ts > FriedHats Coffee Purchase Flow - Realistic Flaky Tests",
         "attachments": [
           {
-            "name": "screenshot",
-            "contentType": "image/png",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-7aa56-nt-wait-for-dynamic-content-chromium/test-failed-1.png"
-          },
-          {
             "name": "video",
             "contentType": "video/webm",
             "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-7aa56-nt-wait-for-dynamic-content-chromium/video.webm"
-          },
-          {
-            "name": "error-context",
-            "contentType": "text/markdown",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-7aa56-nt-wait-for-dynamic-content-chromium/error-context.md"
           },
           {
             "name": "trace",
@@ -232,12 +243,12 @@
       {
         "name": "flaky test - cart drawer timing issues",
         "status": "failed",
-        "duration": 8503,
-        "start": 1759588978,
-        "stop": 1759588986,
-        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/\\/collections\\/coffees/\u001b[39m\nReceived string:  \u001b[31m\"https://friedhats.com/\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://friedhats.com/\"\u001b[22m\n",
-        "trace": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/\\/collections\\/coffees/\u001b[39m\nReceived string:  \u001b[31m\"https://friedhats.com/\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://friedhats.com/\"\u001b[22m\n\n    at navigateToCoffeeCollection (/Users/pati/flaky-test-detector/src/utils/friedhats-helpers.ts:39:22)\n    at /Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts:214:5",
-        "snippet": "\u001b[90m   at \u001b[39m../utils/friedhats-helpers.ts:39\n\n\u001b[0m \u001b[90m 37 |\u001b[39m   \n \u001b[90m 38 |\u001b[39m   \u001b[90m// Wait for coffee collection page\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 39 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/\\/collections\\/coffees/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 40 |\u001b[39m   \n \u001b[90m 41 |\u001b[39m   \u001b[90m// Verify page content is loaded - check for at least one product link\u001b[39m\n \u001b[90m 42 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'link'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/colombia|kenya|ethiopia|peru|guatemala/i\u001b[39m })\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[0m",
+        "duration": 27764,
+        "start": 1759936382,
+        "stop": 1759936409,
+        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/\\/products\\//\u001b[39m\nReceived string:  \u001b[31m\"https://friedhats.com/collections/coffees\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    5 × unexpected value \"https://friedhats.com/collections/coffees\"\u001b[22m\n",
+        "trace": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/\\/products\\//\u001b[39m\nReceived string:  \u001b[31m\"https://friedhats.com/collections/coffees\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    5 × unexpected value \"https://friedhats.com/collections/coffees\"\u001b[22m\n\n    at selectFirstAvailableCoffee (/Users/pati/flaky-test-detector/src/utils/friedhats-helpers.ts:68:26)\n    at /Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts:215:28",
+        "snippet": "\u001b[90m   at \u001b[39m../utils/friedhats-helpers.ts:68\n\n  66 |       \n  67 |       // Wait for product page\n> 68 |       await expect(page).toHaveURL(/\\/products\\//);\n     |                          ^\n  69 |       \n  70 |       return { name: productName.trim() };\n  71 |     }",
         "rawStatus": "failed",
         "tags": [],
         "type": "e2e",
@@ -248,19 +259,9 @@
         "suite": "chromium > flaky-test.spec.ts > FriedHats Coffee Purchase Flow - Realistic Flaky Tests",
         "attachments": [
           {
-            "name": "screenshot",
-            "contentType": "image/png",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-31403---cart-drawer-timing-issues-chromium/test-failed-1.png"
-          },
-          {
             "name": "video",
             "contentType": "video/webm",
             "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-31403---cart-drawer-timing-issues-chromium/video.webm"
-          },
-          {
-            "name": "error-context",
-            "contentType": "text/markdown",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-31403---cart-drawer-timing-issues-chromium/error-context.md"
           },
           {
             "name": "trace",
@@ -282,12 +283,12 @@
       {
         "name": "flaky test - parallel test interference",
         "status": "failed",
-        "duration": 8291,
-        "start": 1759588988,
-        "stop": 1759588996,
+        "duration": 8753,
+        "start": 1759936398,
+        "stop": 1759936406,
         "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('link', { name: 'VIEW ALL COFFEES' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('link', { name: 'VIEW ALL COFFEES' })\u001b[22m\n",
-        "trace": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('link', { name: 'VIEW ALL COFFEES' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('link', { name: 'VIEW ALL COFFEES' })\u001b[22m\n\n    at navigateToCoffeeCollection (/Users/pati/flaky-test-detector/src/utils/friedhats-helpers.ts:35:35)\n    at /Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts:256:37",
-        "snippet": "\u001b[90m   at \u001b[39m../utils/friedhats-helpers.ts:35\n\n\u001b[0m \u001b[90m 33 |\u001b[39m   \u001b[90m// Click VIEW ALL COFFEES button using exact text\u001b[39m\n \u001b[90m 34 |\u001b[39m   \u001b[36mconst\u001b[39m viewCoffeesButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'link'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'VIEW ALL COFFEES'\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 35 |\u001b[39m   \u001b[36mawait\u001b[39m expect(viewCoffeesButton)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 36 |\u001b[39m   \u001b[36mawait\u001b[39m viewCoffeesButton\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 37 |\u001b[39m   \n \u001b[90m 38 |\u001b[39m   \u001b[90m// Wait for coffee collection page\u001b[39m\u001b[0m",
+        "trace": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('link', { name: 'VIEW ALL COFFEES' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('link', { name: 'VIEW ALL COFFEES' })\u001b[22m\n\n    at navigateToCoffeeCollection (/Users/pati/flaky-test-detector/src/utils/friedhats-helpers.ts:34:35)\n    at /Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts:256:37",
+        "snippet": "\u001b[90m   at \u001b[39m../utils/friedhats-helpers.ts:34\n\n  32 |   // Click VIEW ALL COFFEES button using exact text\n  33 |   const viewCoffeesButton = page.getByRole('link', { name: 'VIEW ALL COFFEES' });\n> 34 |   await expect(viewCoffeesButton).toBeVisible();\n     |                                   ^\n  35 |   await viewCoffeesButton.click();\n  36 |   \n  37 |   // Wait for coffee collection page",
         "rawStatus": "failed",
         "tags": [],
         "type": "e2e",
@@ -332,13 +333,12 @@
       {
         "name": "flaky test - CPU throttling sensitivity",
         "status": "failed",
-        "duration": 8454,
-        "start": 1759588990,
-        "stop": 1759588998,
-        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/\\/collections\\/coffees/\u001b[39m\nReceived string:  \u001b[31m\"https://friedhats.com/\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://friedhats.com/\"\u001b[22m\n",
-        "trace": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/\\/collections\\/coffees/\u001b[39m\nReceived string:  \u001b[31m\"https://friedhats.com/\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    9 × unexpected value \"https://friedhats.com/\"\u001b[22m\n\n    at navigateToCoffeeCollection (/Users/pati/flaky-test-detector/src/utils/friedhats-helpers.ts:39:22)\n    at /Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts:278:7\n    at /Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts:277:5",
-        "snippet": "\u001b[90m   at \u001b[39m../utils/friedhats-helpers.ts:39\n\n\u001b[0m \u001b[90m 37 |\u001b[39m   \n \u001b[90m 38 |\u001b[39m   \u001b[90m// Wait for coffee collection page\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 39 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveURL(\u001b[35m/\\/collections\\/coffees/\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 40 |\u001b[39m   \n \u001b[90m 41 |\u001b[39m   \u001b[90m// Verify page content is loaded - check for at least one product link\u001b[39m\n \u001b[90m 42 |\u001b[39m   \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'link'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[35m/colombia|kenya|ethiopia|peru|guatemala/i\u001b[39m })\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[0m",
-        "rawStatus": "failed",
+        "duration": 42738,
+        "start": 1759936398,
+        "stop": 1759936441,
+        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+        "trace": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+        "rawStatus": "timedOut",
         "tags": [],
         "type": "e2e",
         "filePath": "/Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts",
@@ -347,16 +347,15 @@
         "steps": [
           {
             "name": "Navigate under CPU stress",
+            "status": "passed"
+          },
+          {
+            "name": "Complex interactions under throttling",
             "status": "failed"
           }
         ],
         "suite": "chromium > flaky-test.spec.ts > FriedHats Coffee Purchase Flow - Realistic Flaky Tests",
         "attachments": [
-          {
-            "name": "screenshot",
-            "contentType": "image/png",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-81bba--CPU-throttling-sensitivity-chromium/test-failed-1.png"
-          },
           {
             "name": "video",
             "contentType": "video/webm",
@@ -386,11 +385,13 @@
       },
       {
         "name": "Complete coffee purchase journey",
-        "status": "passed",
-        "duration": 13103,
-        "start": 1759588994,
-        "stop": 1759589007,
-        "rawStatus": "passed",
+        "status": "failed",
+        "duration": 37734,
+        "start": 1759936406,
+        "stop": 1759936444,
+        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+        "trace": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+        "rawStatus": "timedOut",
         "tags": [],
         "type": "e2e",
         "filePath": "/Users/pati/flaky-test-detector/src/tests/stable-test-v2.spec.ts",
@@ -415,15 +416,32 @@
           },
           {
             "name": "Add to cart",
-            "status": "passed"
-          },
-          {
-            "name": "Proceed to checkout",
-            "status": "passed"
+            "status": "failed"
           }
         ],
         "suite": "chromium > stable-test-v2.spec.ts > FriedHats Coffee Purchase Flow - Stable Tests",
-        "attachments": [],
+        "attachments": [
+          {
+            "name": "screenshot",
+            "contentType": "image/png",
+            "path": "/Users/pati/flaky-test-detector/test-results/stable-test-v2-FriedHats-C-33a00-ete-coffee-purchase-journey-chromium/test-failed-1.png"
+          },
+          {
+            "name": "video",
+            "contentType": "video/webm",
+            "path": "/Users/pati/flaky-test-detector/test-results/stable-test-v2-FriedHats-C-33a00-ete-coffee-purchase-journey-chromium/video.webm"
+          },
+          {
+            "name": "error-context",
+            "contentType": "text/markdown",
+            "path": "/Users/pati/flaky-test-detector/test-results/stable-test-v2-FriedHats-C-33a00-ete-coffee-purchase-journey-chromium/error-context.md"
+          },
+          {
+            "name": "trace",
+            "contentType": "application/zip",
+            "path": "/Users/pati/flaky-test-detector/test-results/stable-test-v2-FriedHats-C-33a00-ete-coffee-purchase-journey-chromium/trace.zip"
+          }
+        ],
         "stdout": [],
         "stderr": [],
         "extra": {
@@ -437,11 +455,14 @@
       },
       {
         "name": "Handle sold out products gracefully",
-        "status": "passed",
-        "duration": 3441,
-        "start": 1759588998,
-        "stop": 1759589002,
-        "rawStatus": "passed",
+        "status": "failed",
+        "duration": 24314,
+        "start": 1759936410,
+        "stop": 1759936434,
+        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/\\/products\\//\u001b[39m\nReceived string:  \u001b[31m\"https://friedhats.com/collections/coffees\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    4 × unexpected value \"https://friedhats.com/collections/coffees\"\u001b[22m\n",
+        "trace": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/\\/products\\//\u001b[39m\nReceived string:  \u001b[31m\"https://friedhats.com/collections/coffees\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    4 × unexpected value \"https://friedhats.com/collections/coffees\"\u001b[22m\n\n    at /Users/pati/flaky-test-detector/src/tests/stable-test-v2.spec.ts:125:24",
+        "snippet": "  123 |     \n  124 |     // Wait for product page\n> 125 |     await expect(page).toHaveURL(/\\/products\\//);\n      |                        ^\n  126 |     \n  127 |     // Verify SOLD OUT state is shown\n  128 |     await expect(page.getByRole('button', { name: /SOLD OUT/i })).toBeVisible();",
+        "rawStatus": "failed",
         "tags": [],
         "type": "e2e",
         "filePath": "/Users/pati/flaky-test-detector/src/tests/stable-test-v2.spec.ts",
@@ -449,7 +470,18 @@
         "flaky": false,
         "steps": [],
         "suite": "chromium > stable-test-v2.spec.ts > FriedHats Coffee Purchase Flow - Stable Tests",
-        "attachments": [],
+        "attachments": [
+          {
+            "name": "video",
+            "contentType": "video/webm",
+            "path": "/Users/pati/flaky-test-detector/test-results/stable-test-v2-FriedHats-C-5a4ad-old-out-products-gracefully-chromium/video.webm"
+          },
+          {
+            "name": "trace",
+            "contentType": "application/zip",
+            "path": "/Users/pati/flaky-test-detector/test-results/stable-test-v2-FriedHats-C-5a4ad-old-out-products-gracefully-chromium/trace.zip"
+          }
+        ],
         "stdout": [],
         "stderr": [],
         "extra": {

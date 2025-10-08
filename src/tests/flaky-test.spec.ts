@@ -18,7 +18,7 @@
 
 import { test, expect } from '@playwright/test';
 import {
-  dismissPrivacyBanner,
+ // dismissPrivacyBanner,
   navigateToCoffeeCollection,
   selectFirstAvailableCoffee,
   selectProductOptions,
@@ -43,9 +43,6 @@ test.describe('FriedHats Coffee Purchase Flow - Realistic Flaky Tests', () => {
     // This might work on fast connections but fail on slower ones
     // await expect(page.locator('body')).toBeVisible(); // Commented out to introduce flakiness
     
-    // ANTI-PATTERN: Dismissing banner without proper synchronization
-    // This creates a race condition - banner might not be ready
-    dismissPrivacyBanner(page); // Missing await - creates race condition
   });
   
   test('flaky test - race condition with navigation', async ({ page }) => {

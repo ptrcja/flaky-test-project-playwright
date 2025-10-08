@@ -7,26 +7,6 @@
 import { Page, expect } from '@playwright/test';
 
 /**
- * Dismiss privacy/cookie banner if it appears
- */
-export async function dismissPrivacyBanner(page: Page): Promise<void> {
-  const banner = page.getByRole('alertdialog', { name: /we value your privacy/i });
-
-  if (await banner.isVisible()) {
-    const decline = banner.getByRole('button', { name: /decline/i });
-    const accept = banner.getByRole('button', { name: /accept/i });
-
-    if (await decline.isVisible()) {
-      await decline.click();
-    } else if (await accept.isVisible()) {
-      await accept.click();
-    }
-
-    await expect(banner).toBeHidden();
-  }
-}
-
-/**
  * Navigate to coffee collection page
  */
 export async function navigateToCoffeeCollection(page: Page): Promise<void> {
@@ -156,7 +136,7 @@ export async function proceedToCheckout(page: Page): Promise<void> {
     .or(page.getByRole('link', { name: /CONTINUE TO CHECKOUT|CHECKOUT/i }));
   
   await expect(checkoutButton).toBeVisible();
-  await checkoutButton.click();
+  await checkoutButton.click(); 
   
   // Wait for checkout page - could be Shopify or custom checkout
   await expect(page).toHaveURL(/\/(checkouts?\/|cart)/);

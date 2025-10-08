@@ -14,7 +14,7 @@
 
 import { test, expect } from '@playwright/test';
 import {
-  dismissPrivacyBanner,
+ // dismissPrivacyBanner,
   navigateToCoffeeCollection,
   selectFirstAvailableCoffee,
   selectProductOptions,
@@ -31,14 +31,29 @@ test.describe('FriedHats Coffee Purchase Flow - Stable Tests', () => {
       description: 'stable',
     });
     
+    //Setup locator handler to automatically handle overlays/dialogs 
+    await page.addLocatorHandler(
+      page.getByRole('alertdialog', { name: /we value your privacy/i }), 
+      async (banner) => { 
+      const decline = banner.getByRole('button', { name: /decline/i });
+      const accept = banner.getByRole('button', { name: /accept/i });
+
+      if (await decline.count() > 0) {
+        await decline.click();
+      } else if (await accept.count() > 0) {
+        await accept.click();
+      }
+      }
+    );
+
     // Navigate to homepage
     await page.goto('https://friedhats.com');
-    
+
+
     // Wait for page to be ready
     await expect(page.locator('body')).toBeVisible();
     
-    // Dismiss privacy banner if shown
-    await dismissPrivacyBanner(page); 
+    
   });
   
   test('Complete coffee purchase journey', async ({ page }) => {
@@ -63,11 +78,7 @@ test.describe('FriedHats Coffee Purchase Flow - Stable Tests', () => {
         return;
       }
       
-      // Verify the selected product is displayed 
-     // const productNameRegex = new RegExp(selectedCoffee.name, 'i');
-      //await expect(page.getByText(productNameRegex).first()).toBeVisible();
-   //   await expect(page.getByText(selectedCoffee.name).first()).toBeVisible();
-   //   await expect(page.getByText(/€\d+\.\d+|\$\d+\.\d+/).first()).toBeVisible();
+      
    }); 
     
     await test.step('Configure product options', async () => {
