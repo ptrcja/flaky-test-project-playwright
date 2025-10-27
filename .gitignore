@@ -29,3 +29,7 @@ node_modules/
 .DS_Store
 .last-run.json
 .cursorrules
+index.html
+ctrf-report.json
+#examples 
+examples/
