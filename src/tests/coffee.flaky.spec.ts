@@ -63,84 +63,76 @@ test.describe('Coffee Purchase Flow - Flaky Tests', () => {
   });
 
   test('should complete full coffee purchase flow with validation (FLAKY)', async ({ page }) => {
-    // ANTI-PATTERN 2: Hard-coded timeout instead of proper wait
-    // WHY IT FAILS: 300ms might not be enough on slower networks
-    // FIX: Use await page.waitForLoadState() or expect() assertions
-    await page.waitForTimeout(300);
+    // ANTI-PATTERN 2: NO initial wait - start clicking immediately
+    // From articles: "Tests proceed before the application is ready"
+    // WHY IT FAILS: Page might not be fully interactive yet
+    // FIX: Add await page.waitForLoadState('domcontentloaded') after navigation
 
     // ANTI-PATTERN 3: No test.step() - harder to debug which step fails
     // Navigate to Coffee section
     await page.getByText('Coffee', { exact: true }).click();
 
-    // ANTI-PATTERN 4: Another arbitrary timeout
-    // WHY IT FAILS: Page might not be ready after 200ms
-    // FIX: Use await page.waitForLoadState('domcontentloaded')
+    // ANTI-PATTERN 4: Very short timeout (hope-based timing from articles)
+    // WHY IT FAILS: 100ms rarely enough for dropdown menu to render
+    // FIX: Use proper wait for element visibility
+    await page.waitForTimeout(100);
+
+    // ANTI-PATTERN 5: Click Single Origin link and immediately check results
+    // Pattern from articles: "async operations without proper waiting"
+    const singleOriginLink = page.getByRole('link', { name: 'Single Origin Pure coffees' });
+    await expect(singleOriginLink).toBeVisible();
+    await singleOriginLink.click();
+
+    // ANTI-PATTERN 6: NO WAIT - Immediately check URL after navigation with VERY SHORT timeout
+    // From articles: "Tests proceed before the application is ready"
+    // WHY IT FAILS: 1500ms often not enough for navigation + page load
+    // FIX: Use await page.waitForURL(/\/products\?category=SingleOrigin/) with default timeout
+    await expect(page).toHaveURL(/\/products\?category=SingleOrigin/, { timeout: 1500 });
+
+    // ANTI-PATTERN 7: Using locator.all() - immediate snapshot (from articles)
+    // WHY IT FAILS: "performs an immediate snapshot without waiting" - race condition
+    // FIX: Use await expect(button).toBeVisible() before clicking
+    const viewDetailsButtons = await page.getByTestId('product-view-details-colombian-huila').all();
+    if (viewDetailsButtons.length > 0) {
+      await viewDetailsButtons[0].click({ timeout: 1500 });
+    }
+
+    // ANTI-PATTERN 8: Very short timeout before checking element (hope-based timing)
+    // WHY IT FAILS: 200ms rarely enough for product page to render
+    // FIX: Use await page.waitForLoadState('networkidle')
     await page.waitForTimeout(200);
 
-    // ANTI-PATTERN 5: Click without verifying previous navigation completed
-    // WHY IT FAILS: Single Origin link might not be visible yet
-    // FIX: Add await expect(singleOriginLink).toBeVisible() first
-    await page.getByRole('link', { name: 'Single Origin Pure coffees' }).click();
+    // ANTI-PATTERN 9: Click without verifying button is ready (async operation pattern)
+    // From articles: "async operations - checking results before completion"
+    // WHY IT FAILS: Button might not be interactive yet
+    // FIX: Add await expect(button).toBeVisible() and toBeEnabled()
+    await page.getByRole('button', { name: 'Add to Cart' }).first().click({ timeout: 1500 });
 
-    // ANTI-PATTERN 6: Fixed timeout instead of proper load state wait
-    // WHY IT FAILS: 800ms might not be enough on slow networks, creates intermittent failures
-    // FIX: Use await page.waitForLoadState('domcontentloaded')
-    await page.waitForTimeout(800);
+    // ANTI-PATTERN 10: Short timeout between async operations
+    // WHY IT FAILS: Cart might not have updated in 100ms
+    // FIX: Use proper state verification or waitForLoadState
+    await page.waitForTimeout(100);
 
-    // ANTI-PATTERN 7: Click without verifying element is visible
-    // WHY IT FAILS: View Details button might not be ready even after fixed wait
-    // FIX: Add await expect(button).toBeVisible() first
-    await page.getByTestId('product-view-details-colombian-huila').click();
+    // ANTI-PATTERN 11: Rapid consecutive clicks (from articles: race conditions)
+    // WHY IT FAILS: "Multiple actions without waiting for state updates"
+    // FIX: Add await page.waitForLoadState() between clicks
+    await page.getByRole('button', { name: 'Buy Now' }).click({ timeout: 1500 });
+    await page.getByRole('button', { name: 'Proceed to Checkout' }).click({ timeout: 1500 });
 
-    // ANTI-PATTERN 8: Race condition - not waiting for product page
-    // WHY IT FAILS: Product details might not be loaded
-    // FIX: Add await page.waitForLoadState() and verify Add to Cart button is visible
+    // ANTI-PATTERN 12: Very short fixed timeout (hope-based timing from articles)
+    // WHY IT FAILS: 300ms often not enough for checkout page navigation
+    // FIX: Use await page.waitForURL(/\/cart/) with default timeout
+    await page.waitForTimeout(300);
 
-    // ANTI-PATTERN 9: No assertion to verify we're on product page
-    // Missing: await expect(page).toHaveURL(/products/);
-    // WHY IT FAILS: Silently proceeds even if navigation failed
-    // FIX: Add URL and element visibility checks
+    // ANTI-PATTERN 13: Rapid form filling without wait (from articles)
+    // From articles: "Tests proceed before application is ready"
+    // WHY IT FAILS: Form might not be fully rendered/interactive yet
+    // FIX: Use await waitForCheckoutReady(page) before filling
 
-    // ANTI-PATTERN 10: Hard-coded timeout instead of checking element state
-    // WHY IT FAILS: Button might not be ready in 400ms
-    // FIX: Use await expect(button).toBeVisible() and toBeEnabled()
-    await page.waitForTimeout(400);
-
-    // ANTI-PATTERN 11: Using .first() without verifying we're on the right page
-    // WHY IT FAILS: Might click wrong "Add to Cart" if navigation didn't complete
-    // FIX: Verify URL changed to /products/[slug] and only one button exists
-    await page.getByRole('button', { name: 'Add to Cart' }).first().click();
-
-    // ANTI-PATTERN 12: Multiple rapid clicks without waiting for state updates
-    // WHY IT FAILS: Cart might not be updated between clicks
-    // FIX: Add proper waits and state verification between clicks
-    await page.getByRole('button', { name: 'Buy Now' }).click();
-    await page.getByRole('button', { name: 'Proceed to Checkout' }).click();
-
-    // ANTI-PATTERN 13: Fixed timeout instead of waiting for checkout page
-    // WHY IT FAILS: Checkout page might take > 500ms to load
-    // FIX: Use await page.waitForLoadState('networkidle') or await waitForCheckoutReady()
-    await page.waitForTimeout(500);
-
-    // ANTI-PATTERN 14: No URL verification
-    // Missing: await expect(page).toHaveURL(/cart/);
-    // WHY IT FAILS: Might try to fill form on wrong page
-    // FIX: Verify navigation completed successfully
-
-    // ANTI-PATTERN 15: No wait for form to be ready
-    // Missing: await waitForCheckoutReady(page);
-    // WHY IT FAILS: Form fields might not be rendered yet
-    // FIX: Wait for networkidle and verify fields are visible
-
-    // ANTI-PATTERN 16: Click without checking visibility
-    // WHY IT FAILS: Field might not be interactive yet
-    // FIX: Add await expect(field).toBeVisible() first
-    await page.getByRole('textbox', { name: 'Full Name' }).click();
-
-    // ANTI-PATTERN 17: Fill without verifying field is ready
-    // WHY IT FAILS: Field might not accept input if not fully loaded
-    // FIX: Verify field is visible and enabled before filling
-    await page.getByRole('textbox', { name: 'Full Name' }).fill(TEST_DATA.CHECKOUT_FORM.fullName);
+    // ANTI-PATTERN 14: Fill field with short timeout
+    // WHY IT FAILS: 1500ms might not be enough for form to be ready
+    // FIX: Use default timeout and verify field is visible first
+    await page.getByRole('textbox', { name: 'Full Name' }).fill(TEST_DATA.CHECKOUT_FORM.fullName, { timeout: 1500 });
 
     // ANTI-PATTERN 18: No value verification after filling
     // Missing: await expect(field).toHaveValue(expectedValue);
@@ -153,15 +145,15 @@ test.describe('Coffee Purchase Flow - Flaky Tests', () => {
     await page.getByRole('textbox', { name: 'Email' }).fill(TEST_DATA.CHECKOUT_FORM.email);
     await page.getByRole('textbox', { name: 'Address' }).fill(TEST_DATA.CHECKOUT_FORM.address);
 
-    // ANTI-PATTERN 20: Using CSS selector instead of semantic selector
-    // WHY IT FAILS: CSS classes or structure might change
-    // FIX: Use getByRole('textbox', { name: 'City' })
-    await page.locator('input[name="city"]').fill(TEST_DATA.CHECKOUT_FORM.city);
+    // ANTI-PATTERN 20: Rapid form filling without waiting for previous field
+    // WHY IT FAILS: Filling too fast might cause focus issues or missed inputs
+    // FIX: Add small waits or verification between field fills
+    await page.getByRole('textbox', { name: 'City' }).fill(TEST_DATA.CHECKOUT_FORM.city);
 
-    // ANTI-PATTERN 21: Using attribute selector without proper wait
-    // WHY IT FAILS: Field might not be ready, selector is less robust than semantic
-    // FIX: Use getByRole('textbox', { name: 'Postal Code' }) with proper wait
-    await page.locator('input[type="text"]').nth(4).fill(TEST_DATA.CHECKOUT_FORM.postalCode);
+    // ANTI-PATTERN 21: No wait or verification before filling field
+    // WHY IT FAILS: Field might not be ready yet, causing intermittent failures
+    // FIX: Add await expect(field).toBeVisible() before filling
+    await page.getByRole('textbox', { name: 'Postal Code' }).fill(TEST_DATA.CHECKOUT_FORM.postalCode);
 
     // ANTI-PATTERN 22: Hard-coded timeout for dropdown
     // WHY IT FAILS: Dropdown might not be ready in 300ms

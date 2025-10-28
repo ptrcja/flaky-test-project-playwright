@@ -19,7 +19,7 @@ export default defineConfig({
   timeout: 30000,
   
   // Global test timeout
-  globalTimeout: 1200000,
+  globalTimeout: 1800000,
   
   // Reporter configuration with CTRF
   reporter: [
