@@ -44,16 +44,18 @@ export default defineConfig({
   use: {
     // Base URL for testing
     baseURL: 'https://coffee-e2e.vercel.app',
-    
+
     // Collect trace on failure for debugging
     trace: 'retain-on-failure',
-    
+
     // Screenshot on failure
     screenshot: 'only-on-failure',
-    
+
     // Video on failure
     video: 'retain-on-failure',
-  },
+
+
+    },
 
   // Configure browsers
   projects: [

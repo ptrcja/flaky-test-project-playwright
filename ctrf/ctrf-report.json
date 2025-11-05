@@ -1,8 +1,8 @@
 {
   "reportFormat": "CTRF",
   "specVersion": "0.0.0",
-  "reportId": "61e071dd-981a-42bd-a5aa-a036916f5bf1",
-  "timestamp": "2025-10-08T15:12:26.388Z",
+  "reportId": "e1f423f2-0aeb-44ad-a5d0-1c2fd38950be",
+  "timestamp": "2025-11-05T19:07:04.881Z",
   "generatedBy": "playwright-ctrf-json-reporter",
   "results": {
     "tool": {
@@ -10,436 +10,62 @@
     },
     "summary": {
       "tests": 10,
-      "passed": 1,
-      "failed": 9,
+      "passed": 0,
+      "failed": 10,
       "pending": 0,
       "skipped": 0,
       "other": 0,
-      "start": 1759936346412,
-      "stop": 1759936446193,
+      "start": 1762369624948,
+      "stop": 1762369747354,
       "suites": 0
     },
     "tests": [
       {
-        "name": "flaky test - race condition with navigation",
+        "name": "Should complete full coffee purchase flow with validation",
         "status": "failed",
-        "duration": 32601,
-        "start": 1759936346,
-        "stop": 1759936379,
-        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-        "trace": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-        "rawStatus": "timedOut",
-        "tags": [],
-        "type": "e2e",
-        "filePath": "/Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "steps": [
-          {
-            "name": "Navigate with race condition",
-            "status": "failed"
-          }
-        ],
-        "suite": "chromium > flaky-test.spec.ts > FriedHats Coffee Purchase Flow - Realistic Flaky Tests",
-        "attachments": [
-          {
-            "name": "screenshot",
-            "contentType": "image/png",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-953a1-e-condition-with-navigation-chromium/test-failed-1.png"
-          },
-          {
-            "name": "video",
-            "contentType": "video/webm",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-953a1-e-condition-with-navigation-chromium/video.webm"
-          },
-          {
-            "name": "error-context",
-            "contentType": "text/markdown",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-953a1-e-condition-with-navigation-chromium/error-context.md"
-          },
-          {
-            "name": "trace",
-            "contentType": "application/zip",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-953a1-e-condition-with-navigation-chromium/trace.zip"
-          }
-        ],
-        "stdout": [],
-        "stderr": [],
-        "extra": {
-          "annotations": [
-            {
-              "type": "category",
-              "description": "realistically-flaky"
-            }
-          ]
-        }
-      },
-      {
-        "name": "flaky test - network sensitivity and timing",
-        "status": "failed",
-        "duration": 48275,
-        "start": 1759936346,
-        "stop": 1759936395,
-        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-        "trace": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-        "rawStatus": "timedOut",
-        "tags": [],
-        "type": "e2e",
-        "filePath": "/Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "steps": [
-          {
-            "name": "Navigate with network delays",
-            "status": "passed"
-          },
-          {
-            "name": "Quick product selection",
-            "status": "failed"
-          }
-        ],
-        "suite": "chromium > flaky-test.spec.ts > FriedHats Coffee Purchase Flow - Realistic Flaky Tests",
-        "attachments": [
-          {
-            "name": "video",
-            "contentType": "video/webm",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-f6fbc-work-sensitivity-and-timing-chromium/video.webm"
-          },
-          {
-            "name": "trace",
-            "contentType": "application/zip",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-f6fbc-work-sensitivity-and-timing-chromium/trace.zip"
-          }
-        ],
-        "stdout": [],
-        "stderr": [],
-        "extra": {
-          "annotations": [
-            {
-              "type": "category",
-              "description": "realistically-flaky"
-            }
-          ]
-        }
-      },
-      {
-        "name": "flaky test - state dependency issues",
-        "status": "failed",
-        "duration": 47935,
-        "start": 1759936346,
-        "stop": 1759936394,
-        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-        "trace": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-        "rawStatus": "timedOut",
-        "tags": [],
-        "type": "e2e",
-        "filePath": "/Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "steps": [
-          {
-            "name": "Add items with state tracking",
-            "status": "failed"
-          }
-        ],
-        "suite": "chromium > flaky-test.spec.ts > FriedHats Coffee Purchase Flow - Realistic Flaky Tests",
-        "attachments": [
-          {
-            "name": "video",
-            "contentType": "video/webm",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-f0c14-t---state-dependency-issues-chromium/video.webm"
-          },
-          {
-            "name": "trace",
-            "contentType": "application/zip",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-f0c14-t---state-dependency-issues-chromium/trace.zip"
-          }
-        ],
-        "stdout": [],
-        "stderr": [],
-        "extra": {
-          "annotations": [
-            {
-              "type": "category",
-              "description": "realistically-flaky"
-            }
-          ]
-        }
-      },
-      {
-        "name": "flaky test - promise.all misuse with actions",
-        "status": "passed",
-        "duration": 6600,
-        "start": 1759936346,
-        "stop": 1759936353,
-        "rawStatus": "passed",
-        "tags": [],
-        "type": "e2e",
-        "filePath": "/Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "steps": [],
-        "suite": "chromium > flaky-test.spec.ts > FriedHats Coffee Purchase Flow - Realistic Flaky Tests",
-        "attachments": [],
-        "stdout": [],
-        "stderr": [],
-        "extra": {
-          "annotations": [
-            {
-              "type": "category",
-              "description": "realistically-flaky"
-            }
-          ]
-        }
-      },
-      {
-        "name": "flaky test - insufficient wait for dynamic content",
-        "status": "failed",
-        "duration": 48021,
-        "start": 1759936353,
-        "stop": 1759936401,
-        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-        "trace": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-        "rawStatus": "timedOut",
-        "tags": [],
-        "type": "e2e",
-        "filePath": "/Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "steps": [
-          {
-            "name": "Quick navigation",
-            "status": "passed"
-          },
-          {
-            "name": "Product interaction with poor synchronization",
-            "status": "failed"
-          }
-        ],
-        "suite": "chromium > flaky-test.spec.ts > FriedHats Coffee Purchase Flow - Realistic Flaky Tests",
-        "attachments": [
-          {
-            "name": "video",
-            "contentType": "video/webm",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-7aa56-nt-wait-for-dynamic-content-chromium/video.webm"
-          },
-          {
-            "name": "trace",
-            "contentType": "application/zip",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-7aa56-nt-wait-for-dynamic-content-chromium/trace.zip"
-          }
-        ],
-        "stdout": [],
-        "stderr": [],
-        "extra": {
-          "annotations": [
-            {
-              "type": "category",
-              "description": "realistically-flaky"
-            }
-          ]
-        }
-      },
-      {
-        "name": "flaky test - cart drawer timing issues",
-        "status": "failed",
-        "duration": 27764,
-        "start": 1759936382,
-        "stop": 1759936409,
-        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/\\/products\\//\u001b[39m\nReceived string:  \u001b[31m\"https://friedhats.com/collections/coffees\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    5 × unexpected value \"https://friedhats.com/collections/coffees\"\u001b[22m\n",
-        "trace": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/\\/products\\//\u001b[39m\nReceived string:  \u001b[31m\"https://friedhats.com/collections/coffees\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    5 × unexpected value \"https://friedhats.com/collections/coffees\"\u001b[22m\n\n    at selectFirstAvailableCoffee (/Users/pati/flaky-test-detector/src/utils/friedhats-helpers.ts:68:26)\n    at /Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts:215:28",
-        "snippet": "\u001b[90m   at \u001b[39m../utils/friedhats-helpers.ts:68\n\n  66 |       \n  67 |       // Wait for product page\n> 68 |       await expect(page).toHaveURL(/\\/products\\//);\n     |                          ^\n  69 |       \n  70 |       return { name: productName.trim() };\n  71 |     }",
+        "duration": 11225,
+        "start": 1762369625,
+        "stop": 1762369636,
+        "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n",
+        "trace": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n\n    at selectColombianProduct (/Users/pati/flaky-test-detector/src/utils/coffee-helpers.refactored.ts:64:33)\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:55:7\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:54:5",
+        "snippet": "\u001b[90m   at \u001b[39m../utils/coffee-helpers.refactored.ts:64\n\n\u001b[0m \u001b[90m 62 |\u001b[39m\n \u001b[90m 63 |\u001b[39m   \u001b[36mconst\u001b[39m addToCartButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Add to Cart'\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 64 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 65 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeEnabled()\u001b[33m;\u001b[39m\n \u001b[90m 66 |\u001b[39m }\n \u001b[90m 67 |\u001b[39m\u001b[0m",
         "rawStatus": "failed",
         "tags": [],
         "type": "e2e",
-        "filePath": "/Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "steps": [],
-        "suite": "chromium > flaky-test.spec.ts > FriedHats Coffee Purchase Flow - Realistic Flaky Tests",
-        "attachments": [
-          {
-            "name": "video",
-            "contentType": "video/webm",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-31403---cart-drawer-timing-issues-chromium/video.webm"
-          },
-          {
-            "name": "trace",
-            "contentType": "application/zip",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-31403---cart-drawer-timing-issues-chromium/trace.zip"
-          }
-        ],
-        "stdout": [],
-        "stderr": [],
-        "extra": {
-          "annotations": [
-            {
-              "type": "category",
-              "description": "realistically-flaky"
-            }
-          ]
-        }
-      },
-      {
-        "name": "flaky test - parallel test interference",
-        "status": "failed",
-        "duration": 8753,
-        "start": 1759936398,
-        "stop": 1759936406,
-        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('link', { name: 'VIEW ALL COFFEES' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('link', { name: 'VIEW ALL COFFEES' })\u001b[22m\n",
-        "trace": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByRole('link', { name: 'VIEW ALL COFFEES' })\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('link', { name: 'VIEW ALL COFFEES' })\u001b[22m\n\n    at navigateToCoffeeCollection (/Users/pati/flaky-test-detector/src/utils/friedhats-helpers.ts:34:35)\n    at /Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts:256:37",
-        "snippet": "\u001b[90m   at \u001b[39m../utils/friedhats-helpers.ts:34\n\n  32 |   // Click VIEW ALL COFFEES button using exact text\n  33 |   const viewCoffeesButton = page.getByRole('link', { name: 'VIEW ALL COFFEES' });\n> 34 |   await expect(viewCoffeesButton).toBeVisible();\n     |                                   ^\n  35 |   await viewCoffeesButton.click();\n  36 |   \n  37 |   // Wait for coffee collection page",
-        "rawStatus": "failed",
-        "tags": [],
-        "type": "e2e",
-        "filePath": "/Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "steps": [],
-        "suite": "chromium > flaky-test.spec.ts > FriedHats Coffee Purchase Flow - Realistic Flaky Tests",
-        "attachments": [
-          {
-            "name": "screenshot",
-            "contentType": "image/png",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-cd4fe--parallel-test-interference-chromium/test-failed-1.png"
-          },
-          {
-            "name": "video",
-            "contentType": "video/webm",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-cd4fe--parallel-test-interference-chromium/video.webm"
-          },
-          {
-            "name": "error-context",
-            "contentType": "text/markdown",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-cd4fe--parallel-test-interference-chromium/error-context.md"
-          },
-          {
-            "name": "trace",
-            "contentType": "application/zip",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-cd4fe--parallel-test-interference-chromium/trace.zip"
-          }
-        ],
-        "stdout": [],
-        "stderr": [],
-        "extra": {
-          "annotations": [
-            {
-              "type": "category",
-              "description": "realistically-flaky"
-            }
-          ]
-        }
-      },
-      {
-        "name": "flaky test - CPU throttling sensitivity",
-        "status": "failed",
-        "duration": 42738,
-        "start": 1759936398,
-        "stop": 1759936441,
-        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-        "trace": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-        "rawStatus": "timedOut",
-        "tags": [],
-        "type": "e2e",
-        "filePath": "/Users/pati/flaky-test-detector/src/tests/flaky-test.spec.ts",
+        "filePath": "/Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts",
         "retries": 0,
         "flaky": false,
         "steps": [
           {
-            "name": "Navigate under CPU stress",
+            "name": "Navigate to Coffee section",
             "status": "passed"
           },
           {
-            "name": "Complex interactions under throttling",
+            "name": "Select product",
             "status": "failed"
           }
         ],
-        "suite": "chromium > flaky-test.spec.ts > FriedHats Coffee Purchase Flow - Realistic Flaky Tests",
-        "attachments": [
-          {
-            "name": "video",
-            "contentType": "video/webm",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-81bba--CPU-throttling-sensitivity-chromium/video.webm"
-          },
-          {
-            "name": "error-context",
-            "contentType": "text/markdown",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-81bba--CPU-throttling-sensitivity-chromium/error-context.md"
-          },
-          {
-            "name": "trace",
-            "contentType": "application/zip",
-            "path": "/Users/pati/flaky-test-detector/test-results/flaky-test-FriedHats-Coffe-81bba--CPU-throttling-sensitivity-chromium/trace.zip"
-          }
-        ],
-        "stdout": [],
-        "stderr": [],
-        "extra": {
-          "annotations": [
-            {
-              "type": "category",
-              "description": "realistically-flaky"
-            }
-          ]
-        }
-      },
-      {
-        "name": "Complete coffee purchase journey",
-        "status": "failed",
-        "duration": 37734,
-        "start": 1759936406,
-        "stop": 1759936444,
-        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-        "trace": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-        "rawStatus": "timedOut",
-        "tags": [],
-        "type": "e2e",
-        "filePath": "/Users/pati/flaky-test-detector/src/tests/stable-test-v2.spec.ts",
-        "retries": 0,
-        "flaky": false,
-        "steps": [
-          {
-            "name": "Verify homepage",
-            "status": "passed"
-          },
-          {
-            "name": "Navigate to coffee collection",
-            "status": "passed"
-          },
-          {
-            "name": "Select available coffee",
-            "status": "passed"
-          },
-          {
-            "name": "Configure product options",
-            "status": "passed"
-          },
-          {
-            "name": "Add to cart",
-            "status": "failed"
-          }
-        ],
-        "suite": "chromium > stable-test-v2.spec.ts > FriedHats Coffee Purchase Flow - Stable Tests",
+        "suite": "chromium > coffee.stable.refactored.spec.ts > Coffee Purchase Flow - Stable Tests",
         "attachments": [
           {
             "name": "screenshot",
             "contentType": "image/png",
-            "path": "/Users/pati/flaky-test-detector/test-results/stable-test-v2-FriedHats-C-33a00-ete-coffee-purchase-journey-chromium/test-failed-1.png"
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium/test-failed-1.png"
           },
           {
             "name": "video",
             "contentType": "video/webm",
-            "path": "/Users/pati/flaky-test-detector/test-results/stable-test-v2-FriedHats-C-33a00-ete-coffee-purchase-journey-chromium/video.webm"
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium/video.webm"
           },
           {
             "name": "error-context",
             "contentType": "text/markdown",
-            "path": "/Users/pati/flaky-test-detector/test-results/stable-test-v2-FriedHats-C-33a00-ete-coffee-purchase-journey-chromium/error-context.md"
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium/error-context.md"
           },
           {
             "name": "trace",
             "contentType": "application/zip",
-            "path": "/Users/pati/flaky-test-detector/test-results/stable-test-v2-FriedHats-C-33a00-ete-coffee-purchase-journey-chromium/trace.zip"
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium/trace.zip"
           }
         ],
         "stdout": [],
@@ -449,37 +75,60 @@
             {
               "type": "category",
               "description": "stable"
+            },
+            {
+              "type": "test-type",
+              "description": "e2e-best-practices"
             }
           ]
         }
       },
       {
-        "name": "Handle sold out products gracefully",
+        "name": "Should complete full coffee purchase flow with validation",
         "status": "failed",
-        "duration": 24314,
-        "start": 1759936410,
-        "stop": 1759936434,
-        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/\\/products\\//\u001b[39m\nReceived string:  \u001b[31m\"https://friedhats.com/collections/coffees\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    4 × unexpected value \"https://friedhats.com/collections/coffees\"\u001b[22m\n",
-        "trace": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected pattern: \u001b[32m/\\/products\\//\u001b[39m\nReceived string:  \u001b[31m\"https://friedhats.com/collections/coffees\"\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    4 × unexpected value \"https://friedhats.com/collections/coffees\"\u001b[22m\n\n    at /Users/pati/flaky-test-detector/src/tests/stable-test-v2.spec.ts:125:24",
-        "snippet": "  123 |     \n  124 |     // Wait for product page\n> 125 |     await expect(page).toHaveURL(/\\/products\\//);\n      |                        ^\n  126 |     \n  127 |     // Verify SOLD OUT state is shown\n  128 |     await expect(page.getByRole('button', { name: /SOLD OUT/i })).toBeVisible();",
+        "duration": 12112,
+        "start": 1762369638,
+        "stop": 1762369650,
+        "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n",
+        "trace": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n\n    at selectColombianProduct (/Users/pati/flaky-test-detector/src/utils/coffee-helpers.refactored.ts:64:33)\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:55:7\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:54:5",
+        "snippet": "\u001b[90m   at \u001b[39m../utils/coffee-helpers.refactored.ts:64\n\n\u001b[0m \u001b[90m 62 |\u001b[39m\n \u001b[90m 63 |\u001b[39m   \u001b[36mconst\u001b[39m addToCartButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Add to Cart'\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 64 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 65 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeEnabled()\u001b[33m;\u001b[39m\n \u001b[90m 66 |\u001b[39m }\n \u001b[90m 67 |\u001b[39m\u001b[0m",
         "rawStatus": "failed",
         "tags": [],
         "type": "e2e",
-        "filePath": "/Users/pati/flaky-test-detector/src/tests/stable-test-v2.spec.ts",
+        "filePath": "/Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts",
         "retries": 0,
         "flaky": false,
-        "steps": [],
-        "suite": "chromium > stable-test-v2.spec.ts > FriedHats Coffee Purchase Flow - Stable Tests",
+        "steps": [
+          {
+            "name": "Navigate to Coffee section",
+            "status": "passed"
+          },
+          {
+            "name": "Select product",
+            "status": "failed"
+          }
+        ],
+        "suite": "chromium > coffee.stable.refactored.spec.ts > Coffee Purchase Flow - Stable Tests",
         "attachments": [
+          {
+            "name": "screenshot",
+            "contentType": "image/png",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat1/test-failed-1.png"
+          },
           {
             "name": "video",
             "contentType": "video/webm",
-            "path": "/Users/pati/flaky-test-detector/test-results/stable-test-v2-FriedHats-C-5a4ad-old-out-products-gracefully-chromium/video.webm"
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat1/video.webm"
+          },
+          {
+            "name": "error-context",
+            "contentType": "text/markdown",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat1/error-context.md"
           },
           {
             "name": "trace",
             "contentType": "application/zip",
-            "path": "/Users/pati/flaky-test-detector/test-results/stable-test-v2-FriedHats-C-5a4ad-old-out-products-gracefully-chromium/trace.zip"
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat1/trace.zip"
           }
         ],
         "stdout": [],
@@ -489,6 +138,514 @@
             {
               "type": "category",
               "description": "stable"
+            },
+            {
+              "type": "test-type",
+              "description": "e2e-best-practices"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Should complete full coffee purchase flow with validation",
+        "status": "failed",
+        "duration": 9573,
+        "start": 1762369651,
+        "stop": 1762369661,
+        "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n",
+        "trace": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n\n    at selectColombianProduct (/Users/pati/flaky-test-detector/src/utils/coffee-helpers.refactored.ts:64:33)\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:55:7\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:54:5",
+        "snippet": "\u001b[90m   at \u001b[39m../utils/coffee-helpers.refactored.ts:64\n\n\u001b[0m \u001b[90m 62 |\u001b[39m\n \u001b[90m 63 |\u001b[39m   \u001b[36mconst\u001b[39m addToCartButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Add to Cart'\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 64 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 65 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeEnabled()\u001b[33m;\u001b[39m\n \u001b[90m 66 |\u001b[39m }\n \u001b[90m 67 |\u001b[39m\u001b[0m",
+        "rawStatus": "failed",
+        "tags": [],
+        "type": "e2e",
+        "filePath": "/Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "steps": [
+          {
+            "name": "Navigate to Coffee section",
+            "status": "passed"
+          },
+          {
+            "name": "Select product",
+            "status": "failed"
+          }
+        ],
+        "suite": "chromium > coffee.stable.refactored.spec.ts > Coffee Purchase Flow - Stable Tests",
+        "attachments": [
+          {
+            "name": "screenshot",
+            "contentType": "image/png",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat2/test-failed-1.png"
+          },
+          {
+            "name": "video",
+            "contentType": "video/webm",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat2/video.webm"
+          },
+          {
+            "name": "error-context",
+            "contentType": "text/markdown",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat2/error-context.md"
+          },
+          {
+            "name": "trace",
+            "contentType": "application/zip",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat2/trace.zip"
+          }
+        ],
+        "stdout": [],
+        "stderr": [],
+        "extra": {
+          "annotations": [
+            {
+              "type": "category",
+              "description": "stable"
+            },
+            {
+              "type": "test-type",
+              "description": "e2e-best-practices"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Should complete full coffee purchase flow with validation",
+        "status": "failed",
+        "duration": 11419,
+        "start": 1762369662,
+        "stop": 1762369674,
+        "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n",
+        "trace": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n\n    at selectColombianProduct (/Users/pati/flaky-test-detector/src/utils/coffee-helpers.refactored.ts:64:33)\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:55:7\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:54:5",
+        "snippet": "\u001b[90m   at \u001b[39m../utils/coffee-helpers.refactored.ts:64\n\n\u001b[0m \u001b[90m 62 |\u001b[39m\n \u001b[90m 63 |\u001b[39m   \u001b[36mconst\u001b[39m addToCartButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Add to Cart'\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 64 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 65 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeEnabled()\u001b[33m;\u001b[39m\n \u001b[90m 66 |\u001b[39m }\n \u001b[90m 67 |\u001b[39m\u001b[0m",
+        "rawStatus": "failed",
+        "tags": [],
+        "type": "e2e",
+        "filePath": "/Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "steps": [
+          {
+            "name": "Navigate to Coffee section",
+            "status": "passed"
+          },
+          {
+            "name": "Select product",
+            "status": "failed"
+          }
+        ],
+        "suite": "chromium > coffee.stable.refactored.spec.ts > Coffee Purchase Flow - Stable Tests",
+        "attachments": [
+          {
+            "name": "screenshot",
+            "contentType": "image/png",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat3/test-failed-1.png"
+          },
+          {
+            "name": "video",
+            "contentType": "video/webm",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat3/video.webm"
+          },
+          {
+            "name": "error-context",
+            "contentType": "text/markdown",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat3/error-context.md"
+          },
+          {
+            "name": "trace",
+            "contentType": "application/zip",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat3/trace.zip"
+          }
+        ],
+        "stdout": [],
+        "stderr": [],
+        "extra": {
+          "annotations": [
+            {
+              "type": "category",
+              "description": "stable"
+            },
+            {
+              "type": "test-type",
+              "description": "e2e-best-practices"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Should complete full coffee purchase flow with validation",
+        "status": "failed",
+        "duration": 10658,
+        "start": 1762369675,
+        "stop": 1762369686,
+        "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n",
+        "trace": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n\n    at selectColombianProduct (/Users/pati/flaky-test-detector/src/utils/coffee-helpers.refactored.ts:64:33)\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:55:7\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:54:5",
+        "snippet": "\u001b[90m   at \u001b[39m../utils/coffee-helpers.refactored.ts:64\n\n\u001b[0m \u001b[90m 62 |\u001b[39m\n \u001b[90m 63 |\u001b[39m   \u001b[36mconst\u001b[39m addToCartButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Add to Cart'\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 64 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 65 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeEnabled()\u001b[33m;\u001b[39m\n \u001b[90m 66 |\u001b[39m }\n \u001b[90m 67 |\u001b[39m\u001b[0m",
+        "rawStatus": "failed",
+        "tags": [],
+        "type": "e2e",
+        "filePath": "/Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "steps": [
+          {
+            "name": "Navigate to Coffee section",
+            "status": "passed"
+          },
+          {
+            "name": "Select product",
+            "status": "failed"
+          }
+        ],
+        "suite": "chromium > coffee.stable.refactored.spec.ts > Coffee Purchase Flow - Stable Tests",
+        "attachments": [
+          {
+            "name": "screenshot",
+            "contentType": "image/png",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat4/test-failed-1.png"
+          },
+          {
+            "name": "video",
+            "contentType": "video/webm",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat4/video.webm"
+          },
+          {
+            "name": "error-context",
+            "contentType": "text/markdown",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat4/error-context.md"
+          },
+          {
+            "name": "trace",
+            "contentType": "application/zip",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat4/trace.zip"
+          }
+        ],
+        "stdout": [],
+        "stderr": [],
+        "extra": {
+          "annotations": [
+            {
+              "type": "category",
+              "description": "stable"
+            },
+            {
+              "type": "test-type",
+              "description": "e2e-best-practices"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Should complete full coffee purchase flow with validation",
+        "status": "failed",
+        "duration": 15141,
+        "start": 1762369687,
+        "stop": 1762369702,
+        "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n",
+        "trace": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n\n    at selectColombianProduct (/Users/pati/flaky-test-detector/src/utils/coffee-helpers.refactored.ts:64:33)\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:55:7\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:54:5",
+        "snippet": "\u001b[90m   at \u001b[39m../utils/coffee-helpers.refactored.ts:64\n\n\u001b[0m \u001b[90m 62 |\u001b[39m\n \u001b[90m 63 |\u001b[39m   \u001b[36mconst\u001b[39m addToCartButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Add to Cart'\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 64 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 65 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeEnabled()\u001b[33m;\u001b[39m\n \u001b[90m 66 |\u001b[39m }\n \u001b[90m 67 |\u001b[39m\u001b[0m",
+        "rawStatus": "failed",
+        "tags": [],
+        "type": "e2e",
+        "filePath": "/Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "steps": [
+          {
+            "name": "Navigate to Coffee section",
+            "status": "passed"
+          },
+          {
+            "name": "Select product",
+            "status": "failed"
+          }
+        ],
+        "suite": "chromium > coffee.stable.refactored.spec.ts > Coffee Purchase Flow - Stable Tests",
+        "attachments": [
+          {
+            "name": "screenshot",
+            "contentType": "image/png",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat5/test-failed-1.png"
+          },
+          {
+            "name": "video",
+            "contentType": "video/webm",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat5/video.webm"
+          },
+          {
+            "name": "error-context",
+            "contentType": "text/markdown",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat5/error-context.md"
+          },
+          {
+            "name": "trace",
+            "contentType": "application/zip",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat5/trace.zip"
+          }
+        ],
+        "stdout": [],
+        "stderr": [],
+        "extra": {
+          "annotations": [
+            {
+              "type": "category",
+              "description": "stable"
+            },
+            {
+              "type": "test-type",
+              "description": "e2e-best-practices"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Should complete full coffee purchase flow with validation",
+        "status": "failed",
+        "duration": 12158,
+        "start": 1762369704,
+        "stop": 1762369716,
+        "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n",
+        "trace": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n\n    at selectColombianProduct (/Users/pati/flaky-test-detector/src/utils/coffee-helpers.refactored.ts:64:33)\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:55:7\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:54:5",
+        "snippet": "\u001b[90m   at \u001b[39m../utils/coffee-helpers.refactored.ts:64\n\n\u001b[0m \u001b[90m 62 |\u001b[39m\n \u001b[90m 63 |\u001b[39m   \u001b[36mconst\u001b[39m addToCartButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Add to Cart'\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 64 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 65 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeEnabled()\u001b[33m;\u001b[39m\n \u001b[90m 66 |\u001b[39m }\n \u001b[90m 67 |\u001b[39m\u001b[0m",
+        "rawStatus": "failed",
+        "tags": [],
+        "type": "e2e",
+        "filePath": "/Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "steps": [
+          {
+            "name": "Navigate to Coffee section",
+            "status": "passed"
+          },
+          {
+            "name": "Select product",
+            "status": "failed"
+          }
+        ],
+        "suite": "chromium > coffee.stable.refactored.spec.ts > Coffee Purchase Flow - Stable Tests",
+        "attachments": [
+          {
+            "name": "screenshot",
+            "contentType": "image/png",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat6/test-failed-1.png"
+          },
+          {
+            "name": "video",
+            "contentType": "video/webm",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat6/video.webm"
+          },
+          {
+            "name": "error-context",
+            "contentType": "text/markdown",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat6/error-context.md"
+          },
+          {
+            "name": "trace",
+            "contentType": "application/zip",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat6/trace.zip"
+          }
+        ],
+        "stdout": [],
+        "stderr": [],
+        "extra": {
+          "annotations": [
+            {
+              "type": "category",
+              "description": "stable"
+            },
+            {
+              "type": "test-type",
+              "description": "e2e-best-practices"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Should complete full coffee purchase flow with validation",
+        "status": "failed",
+        "duration": 10597,
+        "start": 1762369718,
+        "stop": 1762369728,
+        "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n",
+        "trace": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n\n    at selectColombianProduct (/Users/pati/flaky-test-detector/src/utils/coffee-helpers.refactored.ts:64:33)\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:55:7\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:54:5",
+        "snippet": "\u001b[90m   at \u001b[39m../utils/coffee-helpers.refactored.ts:64\n\n\u001b[0m \u001b[90m 62 |\u001b[39m\n \u001b[90m 63 |\u001b[39m   \u001b[36mconst\u001b[39m addToCartButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Add to Cart'\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 64 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 65 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeEnabled()\u001b[33m;\u001b[39m\n \u001b[90m 66 |\u001b[39m }\n \u001b[90m 67 |\u001b[39m\u001b[0m",
+        "rawStatus": "failed",
+        "tags": [],
+        "type": "e2e",
+        "filePath": "/Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "steps": [
+          {
+            "name": "Navigate to Coffee section",
+            "status": "passed"
+          },
+          {
+            "name": "Select product",
+            "status": "failed"
+          }
+        ],
+        "suite": "chromium > coffee.stable.refactored.spec.ts > Coffee Purchase Flow - Stable Tests",
+        "attachments": [
+          {
+            "name": "screenshot",
+            "contentType": "image/png",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat7/test-failed-1.png"
+          },
+          {
+            "name": "video",
+            "contentType": "video/webm",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat7/video.webm"
+          },
+          {
+            "name": "error-context",
+            "contentType": "text/markdown",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat7/error-context.md"
+          },
+          {
+            "name": "trace",
+            "contentType": "application/zip",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat7/trace.zip"
+          }
+        ],
+        "stdout": [],
+        "stderr": [],
+        "extra": {
+          "annotations": [
+            {
+              "type": "category",
+              "description": "stable"
+            },
+            {
+              "type": "test-type",
+              "description": "e2e-best-practices"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Should complete full coffee purchase flow with validation",
+        "status": "failed",
+        "duration": 7204,
+        "start": 1762369730,
+        "stop": 1762369737,
+        "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n",
+        "trace": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n\n    at selectColombianProduct (/Users/pati/flaky-test-detector/src/utils/coffee-helpers.refactored.ts:64:33)\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:55:7\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:54:5",
+        "snippet": "\u001b[90m   at \u001b[39m../utils/coffee-helpers.refactored.ts:64\n\n\u001b[0m \u001b[90m 62 |\u001b[39m\n \u001b[90m 63 |\u001b[39m   \u001b[36mconst\u001b[39m addToCartButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Add to Cart'\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 64 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 65 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeEnabled()\u001b[33m;\u001b[39m\n \u001b[90m 66 |\u001b[39m }\n \u001b[90m 67 |\u001b[39m\u001b[0m",
+        "rawStatus": "failed",
+        "tags": [],
+        "type": "e2e",
+        "filePath": "/Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "steps": [
+          {
+            "name": "Navigate to Coffee section",
+            "status": "passed"
+          },
+          {
+            "name": "Select product",
+            "status": "failed"
+          }
+        ],
+        "suite": "chromium > coffee.stable.refactored.spec.ts > Coffee Purchase Flow - Stable Tests",
+        "attachments": [
+          {
+            "name": "screenshot",
+            "contentType": "image/png",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat8/test-failed-1.png"
+          },
+          {
+            "name": "video",
+            "contentType": "video/webm",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat8/video.webm"
+          },
+          {
+            "name": "error-context",
+            "contentType": "text/markdown",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat8/error-context.md"
+          },
+          {
+            "name": "trace",
+            "contentType": "application/zip",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat8/trace.zip"
+          }
+        ],
+        "stdout": [],
+        "stderr": [],
+        "extra": {
+          "annotations": [
+            {
+              "type": "category",
+              "description": "stable"
+            },
+            {
+              "type": "test-type",
+              "description": "e2e-best-practices"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Should complete full coffee purchase flow with validation",
+        "status": "failed",
+        "duration": 7237,
+        "start": 1762369738,
+        "stop": 1762369746,
+        "message": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n",
+        "trace": "Error: expect.toBeVisible: Error: strict mode violation: getByRole('button', { name: 'Add to Cart' }) resolved to 5 elements:\n    1) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-colombian-huila').getByRole('button', { name: 'Add to Cart' })\n    2) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-ethiopian-yirgacheffe').getByRole('button', { name: 'Add to Cart' })\n    3) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-costa-rica-tarrazu').getByRole('button', { name: 'Add to Cart' })\n    4) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-kenya-aa').getByRole('button', { name: 'Add to Cart' })\n    5) <button class=\"inline-flex h-10 sm:h-12 items-center justify-center w-full border border-blue-600 text-blue-600 hover:bg-blue-50 text-xs sm:text-sm font-medium rounded-md transition-all duration-200\">Add to Cart</button> aka getByTestId('product-card-guatemala-antigua').getByRole('button', { name: 'Add to Cart' })\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Add to Cart' })\u001b[22m\n\n    at selectColombianProduct (/Users/pati/flaky-test-detector/src/utils/coffee-helpers.refactored.ts:64:33)\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:55:7\n    at /Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts:54:5",
+        "snippet": "\u001b[90m   at \u001b[39m../utils/coffee-helpers.refactored.ts:64\n\n\u001b[0m \u001b[90m 62 |\u001b[39m\n \u001b[90m 63 |\u001b[39m   \u001b[36mconst\u001b[39m addToCartButton \u001b[33m=\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Add to Cart'\u001b[39m })\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 64 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                 \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 65 |\u001b[39m   \u001b[36mawait\u001b[39m expect(addToCartButton)\u001b[33m.\u001b[39mtoBeEnabled()\u001b[33m;\u001b[39m\n \u001b[90m 66 |\u001b[39m }\n \u001b[90m 67 |\u001b[39m\u001b[0m",
+        "rawStatus": "failed",
+        "tags": [],
+        "type": "e2e",
+        "filePath": "/Users/pati/flaky-test-detector/src/tests/coffee.stable.refactored.spec.ts",
+        "retries": 0,
+        "flaky": false,
+        "steps": [
+          {
+            "name": "Navigate to Coffee section",
+            "status": "passed"
+          },
+          {
+            "name": "Select product",
+            "status": "failed"
+          }
+        ],
+        "suite": "chromium > coffee.stable.refactored.spec.ts > Coffee Purchase Flow - Stable Tests",
+        "attachments": [
+          {
+            "name": "screenshot",
+            "contentType": "image/png",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat9/test-failed-1.png"
+          },
+          {
+            "name": "video",
+            "contentType": "video/webm",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat9/video.webm"
+          },
+          {
+            "name": "error-context",
+            "contentType": "text/markdown",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat9/error-context.md"
+          },
+          {
+            "name": "trace",
+            "contentType": "application/zip",
+            "path": "/Users/pati/flaky-test-detector/test-results/coffee.stable.refactored-C-f3391-rchase-flow-with-validation-chromium-repeat9/trace.zip"
+          }
+        ],
+        "stdout": [],
+        "stderr": [],
+        "extra": {
+          "annotations": [
+            {
+              "type": "category",
+              "description": "stable"
+            },
+            {
+              "type": "test-type",
+              "description": "e2e-best-practices"
             }
           ]
         }

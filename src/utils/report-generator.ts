@@ -1,14 +1,7 @@
 /**
  * Report Generator Module
- * 
- * This module generates multiple report formats from test statistics.
- * Each format serves different purposes and audiences.
- * 
- * Learning Goals:
- * - Generate different output formats (HTML, Markdown, JSON, CSV)
- * - Create visualizations and dashboards
- * - Practice string templating and file I/O
- * - Learn to present data effectively
+ *
+ * Generates multiple report formats from test statistics.
  */
 
 import * as fs from 'fs';
@@ -16,391 +9,546 @@ import * as path from 'path';
 import { TestStatistics } from './flaky-detector';
 
 export interface ReportOptions {
-  outputDir?: string;
-  generateHtml?: boolean;
-  generateMarkdown?: boolean;
-  generateJson?: boolean;
-  generateCsv?: boolean;
+    outputDir?: string;
+    generateHtml?: boolean;
+    generateMarkdown?: boolean;
+    generateJson?: boolean;
+    generateCsv?: boolean;
 }
 
 export class ReportGenerator {
-  private options: Required<ReportOptions>;
+    private options: Required<ReportOptions>;
 
-  constructor(options?: ReportOptions) {
-    this.options = {
-      outputDir: 'reports/analysis',
-      generateHtml: true,
-      generateMarkdown: true,
-      generateJson: true,
-      generateCsv: true,
-      ...options
-    };
-  }
+    constructor(options?: ReportOptions) {
+        this.options = {
+            outputDir: 'reports/analysis',
+            generateHtml: true,
+            generateMarkdown: true,
+            generateJson: true,
+            generateCsv: true,
+            ...options
+        };
+    }
 
-  /**
-   * Generate all configured report types
-   */
-  generateReports(statistics: TestStatistics[]): void {
-    console.log('\n📊 Generating reports...');
-    
-    // Ensure output directory exists
-    if (!fs.existsSync(this.options.outputDir)) {
-      fs.mkdirSync(this.options.outputDir, { recursive: true });
-    }
-    
-    if (this.options.generateMarkdown) {
-      this.generateMarkdownReport(statistics);
-    }
-    
-    if (this.options.generateJson) {
-      this.generateJsonReport(statistics);
-    }
-    
-    if (this.options.generateHtml) {
-      this.generateHtmlReport(statistics);
-    }
-    
-    if (this.options.generateCsv) {
-      this.generateCsvReport(statistics);
-    }
-    
-    console.log(`✅ Reports generated in ${this.options.outputDir}`);
-  }
+    /**
+     * Generate all configured report types
+     */
+    generateReports(statistics: TestStatistics[]): void {
+        console.log('\n📊 Generating reports...');
 
-  /**
-   * Generate Markdown report for GitHub
-   */
-  private generateMarkdownReport(statistics: TestStatistics[]): void {
-    const flakyTests = statistics.filter(s => s.isFlaky);
-    const stableTests = statistics.filter(s => !s.isFlaky && s.failureRate === 0);
-    const failingTests = statistics.filter(s => s.failureRate >= 0.9);
-    const unstableTests = statistics.filter(s => !s.isFlaky && s.failureRate > 0 && s.failureRate < 0.9);
-    
-    let markdown = '# 🔍 Flaky Test Detection Report\n\n';
-    markdown += `> Generated: ${new Date().toISOString()}\n\n`;
-    
-    // Executive Summary
-    markdown += '## 📊 Executive Summary\n\n';
-    markdown += '| Metric | Count | Percentage |\n';
-    markdown += '|--------|-------|------------|\n';
-    markdown += `| Total Tests | ${statistics.length} | 100% |\n`;
-    markdown += `| 🔴 Flaky Tests | ${flakyTests.length} | ${this.percentage(flakyTests.length, statistics.length)} |\n`;
-    markdown += `| ✅ Stable Tests | ${stableTests.length} | ${this.percentage(stableTests.length, statistics.length)} |\n`;
-    markdown += `| ❌ Consistently Failing | ${failingTests.length} | ${this.percentage(failingTests.length, statistics.length)} |\n`;
-    markdown += `| ⚠️ Unstable (not flaky) | ${unstableTests.length} | ${this.percentage(unstableTests.length, statistics.length)} |\n\n`;
-    
-    // Flaky Tests Details
-    if (flakyTests.length > 0) {
-      markdown += '## 🔴 Flaky Tests (Immediate Attention Required)\n\n';
-      markdown += 'These tests show inconsistent behavior and need to be fixed:\n\n';
-      markdown += '| Test Name | Suite | Pass Rate | Duration Variance | Confidence | Common Failure |\n';
-      markdown += '|-----------|-------|-----------|-------------------|------------|----------------|\n';
-      
-      for (const test of flakyTests) {
-        const passRate = `${(test.successRate * 100).toFixed(1)}%`;
-        const variance = `${(test.durationVariance * 100).toFixed(1)}%`;
-        const confidence = `${(test.confidence * 100).toFixed(0)}%`;
-        const commonFailure = test.failureMessages[0]?.substring(0, 50) || 'N/A';
-        
-        markdown += `| \`${test.name}\` | ${test.suite} | ${passRate} | ${variance} | ${confidence} | ${commonFailure}... |\n`;
-      }
-      markdown += '\n';
-      
-      // Failure Analysis
-      markdown += '### 📈 Failure Patterns\n\n';
-      for (const test of flakyTests.slice(0, 3)) { // Top 3 flaky tests
-        markdown += `#### ${test.name}\n`;
-        markdown += `- **File**: \`${test.file}\`\n`;
-        markdown += `- **Failure Rate**: ${(test.failureRate * 100).toFixed(1)}%\n`;
-        markdown += `- **Average Duration**: ${test.averageDuration.toFixed(0)}ms\n`;
-        if (test.failureMessages.length > 0) {
-          markdown += `- **Failure Types**: ${test.failureMessages.length} unique\n`;
-          markdown += '  ```\n';
-          markdown += `  ${test.failureMessages[0]}\n`;
-          markdown += '  ```\n';
+        // Ensure output directory exists
+        if (!fs.existsSync(this.options.outputDir)) {
+            fs.mkdirSync(this.options.outputDir, { recursive: true });
         }
-        markdown += '\n';
-      }
-    }
-    
-    // Recommendations
-    markdown += '## 💡 Recommendations\n\n';
-    
-    if (flakyTests.length > 0) {
-      const timingFlaky = flakyTests.filter(t => t.durationVariance > 0.5);
-      const randomFlaky = flakyTests.filter(t => t.failureRate > 0.2 && t.failureRate < 0.8);
-      
-      if (timingFlaky.length > 0) {
-        markdown += `### ⏱️ Timing Issues (${timingFlaky.length} tests)\n`;
-        markdown += 'These tests have high duration variance, indicating timing-related flakiness:\n';
-        markdown += '- Add explicit waits using `waitForSelector` or `waitForLoadState`\n';
-        markdown += '- Avoid fixed timeouts; use dynamic waits instead\n';
-        markdown += '- Check for race conditions in async operations\n\n';
-      }
-      
-      if (randomFlaky.length > 0) {
-        markdown += `### 🎲 Random Failures (${randomFlaky.length} tests)\n`;
-        markdown += 'These tests fail randomly without clear patterns:\n';
-        markdown += '- Check for test isolation issues\n';
-        markdown += '- Verify test data cleanup between runs\n';
-        markdown += '- Look for external dependencies (APIs, databases)\n';
-        markdown += '- Consider mocking unstable external services\n\n';
-      }
-    } else {
-      markdown += '### ✅ Great job! No flaky tests detected.\n\n';
-      markdown += 'Your test suite appears stable. Continue monitoring for flakiness as the codebase evolves.\n\n';
-    }
-    
-    // Test Health Score
-    const healthScore = this.calculateHealthScore(statistics);
-    markdown += '## 🏥 Test Suite Health Score\n\n';
-    markdown += `### Overall Score: ${this.getHealthEmoji(healthScore)} ${healthScore}/100\n\n`;
-    markdown += '- **Stability**: ' + (100 - (flakyTests.length / statistics.length * 100)).toFixed(0) + '/100\n';
-    markdown += '- **Reliability**: ' + (stableTests.length / statistics.length * 100).toFixed(0) + '/100\n';
-    markdown += '- **Maintainability**: ' + (100 - (failingTests.length / statistics.length * 100)).toFixed(0) + '/100\n';
-    
-    // Save report
-    const reportPath = path.join(this.options.outputDir, 'flaky-report.md');
-    fs.writeFileSync(reportPath, markdown);
-    console.log(`   📝 Markdown report: ${reportPath}`);
-  }
 
-  /**
-   * Generate JSON report for programmatic access
-   */
-  private generateJsonReport(statistics: TestStatistics[]): void {
-    const report = {
-      metadata: {
-        version: '1.0.0',
-        timestamp: new Date().toISOString(),
-        tool: 'playwright-flaky-detector',
-        format: 'ctrf-enhanced'
-      },
-      summary: {
-        totalTests: statistics.length,
-        flakyTests: statistics.filter(s => s.isFlaky).length,
-        stableTests: statistics.filter(s => !s.isFlaky && s.failureRate === 0).length,
-        failingTests: statistics.filter(s => s.failureRate >= 0.9).length,
-        healthScore: this.calculateHealthScore(statistics)
-      },
-      tests: statistics,
-      analysis: {
-        mostFlaky: statistics.filter(s => s.isFlaky).slice(0, 5),
-        longestDuration: [...statistics].sort((a, b) => b.averageDuration - a.averageDuration).slice(0, 5),
-        highestVariance: [...statistics].sort((a, b) => b.durationVariance - a.durationVariance).slice(0, 5)
-      }
-    };
-    
-    const reportPath = path.join(this.options.outputDir, 'flaky-report.json');
-    fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
-    console.log(`   📄 JSON report: ${reportPath}`);
-  }
+        if (this.options.generateMarkdown) {
+            this.generateMarkdownReport(statistics);
+        }
 
-  /**
-   * Generate HTML report with interactive features
-   */
-  private generateHtmlReport(statistics: TestStatistics[]): void {
-    const flakyTests = statistics.filter(s => s.isFlaky);
-    const stableTests = statistics.filter(s => !s.isFlaky && s.failureRate === 0);
-    const failingTests = statistics.filter(s => s.failureRate >= 0.9);
-    
-    const html = `
+        if (this.options.generateJson) {
+            this.generateJsonReport(statistics);
+        }
+
+        if (this.options.generateHtml) {
+            this.generateHtmlReport(statistics);
+        }
+
+        if (this.options.generateCsv) {
+            this.generateCsvReport(statistics);
+        }
+
+        console.log(`✅ Reports generated in ${this.options.outputDir}`);
+    }
+
+    /**
+     * Generate Markdown report for GitHub
+     */
+    private generateMarkdownReport(statistics: TestStatistics[]): void {
+        const flakyTests = statistics.filter(s => s.isFlaky);
+        const stableTests = statistics.filter(s => !s.isFlaky && s.failureRate === 0);
+        const failingTests = statistics.filter(s => s.failureRate >= 0.9);
+        const unstableTests = statistics.filter(s => !s.isFlaky && s.failureRate > 0 && s.failureRate < 0.9);
+
+        let markdown = '# 🔍 Flaky Test Detection Report\n\n';
+        markdown += `> Generated: ${new Date().toISOString()}\n\n`;
+
+        // Executive Summary
+        markdown += '## 📊 Executive Summary\n\n';
+        markdown += '| Metric | Count | Percentage |\n';
+        markdown += '|--------|-------|------------|\n';
+        markdown += `| Total Tests | ${statistics.length} | 100% |\n`;
+        markdown += `| 🔴 Flaky Tests | ${flakyTests.length} | ${this.percentage(flakyTests.length, statistics.length)} |\n`;
+        markdown += `| ✅ Stable Tests | ${stableTests.length} | ${this.percentage(stableTests.length, statistics.length)} |\n`;
+        markdown += `| ❌ Consistently Failing | ${failingTests.length} | ${this.percentage(failingTests.length, statistics.length)} |\n`;
+        markdown += `| ⚠️ Unstable (not flaky) | ${unstableTests.length} | ${this.percentage(unstableTests.length, statistics.length)} |\n\n`;
+
+        // Flaky Tests Details
+        if (flakyTests.length > 0) {
+            markdown += '## 🔴 Flaky Tests (Immediate Attention Required)\n\n';
+            markdown += 'These tests show inconsistent behavior and need to be fixed:\n\n';
+            markdown += '| Test Name | Suite | Pass Rate | Duration Variance | Confidence | Common Failure |\n';
+            markdown += '|-----------|-------|-----------|-------------------|------------|----------------|\n';
+
+            for (const test of flakyTests) {
+                const passRate = `${(test.successRate * 100).toFixed(1)}%`;
+                const variance = `${(test.durationVariance * 100).toFixed(1)}%`;
+                const confidence = `${(test.confidence * 100).toFixed(0)}%`;
+                const commonFailure = test.failureMessages[0]?.substring(0, 50) || 'N/A';
+
+                markdown += `| \`${test.name}\` | ${test.suite} | ${passRate} | ${variance} | ${confidence} | ${commonFailure}... |\n`;
+            }
+            markdown += '\n';
+
+            // Failure Analysis
+            markdown += '### 📈 Failure Patterns\n\n';
+            for (const test of flakyTests.slice(0, 3)) { // Top 3 flaky tests
+                markdown += `#### ${test.name}\n`;
+                markdown += `- **File**: \`${test.file}\`\n`;
+                markdown += `- **Failure Rate**: ${(test.failureRate * 100).toFixed(1)}%\n`;
+                markdown += `- **Average Duration**: ${test.averageDuration.toFixed(0)}ms\n`;
+                if (test.failureMessages.length > 0) {
+                    markdown += `- **Failure Types**: ${test.failureMessages.length} unique\n`;
+                    markdown += '  ```\n';
+                    markdown += `  ${test.failureMessages[0]}\n`;
+                    markdown += '  ```\n';
+                }
+                markdown += '\n';
+            }
+        }
+
+        // Recommendations
+        markdown += '## 💡 Recommendations\n\n';
+
+        if (flakyTests.length > 0) {
+            const timingFlaky = flakyTests.filter(t => t.durationVariance > 0.5);
+            const randomFlaky = flakyTests.filter(t => t.failureRate > 0.2 && t.failureRate < 0.8);
+
+            if (timingFlaky.length > 0) {
+                markdown += `### ⏱️ Timing Issues (${timingFlaky.length} tests)\n`;
+                markdown += 'These tests have high duration variance, indicating timing-related flakiness:\n';
+                markdown += '- Add explicit waits using `waitForSelector` or `waitForLoadState`\n';
+                markdown += '- Avoid fixed timeouts; use dynamic waits instead\n';
+                markdown += '- Check for race conditions in async operations\n\n';
+            }
+
+            if (randomFlaky.length > 0) {
+                markdown += `### 🎲 Random Failures (${randomFlaky.length} tests)\n`;
+                markdown += 'These tests fail randomly without clear patterns:\n';
+                markdown += '- Check for test isolation issues\n';
+                markdown += '- Verify test data cleanup between runs\n';
+                markdown += '- Look for external dependencies (APIs, databases)\n';
+                markdown += '- Consider mocking unstable external services\n\n';
+            }
+        } else {
+            markdown += '### ✅ Great job! No flaky tests detected.\n\n';
+            markdown += 'Your test suite appears stable. Continue monitoring for flakiness as the codebase evolves.\n\n';
+        }
+
+        // Test Health Score
+        const healthScore = this.calculateHealthScore(statistics);
+        markdown += '## 🏥 Test Suite Health Score\n\n';
+        markdown += `### Overall Score: ${this.getHealthEmoji(healthScore)} ${healthScore}/100\n\n`;
+        markdown += '- **Stability**: ' + (100 - (flakyTests.length / statistics.length * 100)).toFixed(0) + '/100\n';
+        markdown += '- **Reliability**: ' + (stableTests.length / statistics.length * 100).toFixed(0) + '/100\n';
+        markdown += '- **Maintainability**: ' + (100 - (failingTests.length / statistics.length * 100)).toFixed(0) + '/100\n';
+
+        // Save report
+        const reportPath = path.join(this.options.outputDir, 'flaky-report.md');
+        fs.writeFileSync(reportPath, markdown);
+        console.log(`   📝 Markdown report: ${reportPath}`);
+    }
+
+    /**
+     * Generate JSON report for programmatic access
+     */
+    private generateJsonReport(statistics: TestStatistics[]): void {
+        const report = {
+            metadata: {
+                version: '1.0.0',
+                timestamp: new Date().toISOString(),
+                tool: 'playwright-flaky-detector',
+                format: 'ctrf-enhanced'
+            },
+            summary: {
+                totalTests: statistics.length,
+                flakyTests: statistics.filter(s => s.isFlaky).length,
+                stableTests: statistics.filter(s => !s.isFlaky && s.failureRate === 0).length,
+                failingTests: statistics.filter(s => s.failureRate >= 0.9).length,
+                healthScore: this.calculateHealthScore(statistics)
+            },
+            tests: statistics,
+            analysis: {
+                mostFlaky: statistics.filter(s => s.isFlaky).slice(0, 5),
+                longestDuration: [...statistics].sort((a, b) => b.averageDuration - a.averageDuration).slice(0, 5),
+                highestVariance: [...statistics].sort((a, b) => b.durationVariance - a.durationVariance).slice(0, 5)
+            }
+        };
+
+        const reportPath = path.join(this.options.outputDir, 'flaky-report.json');
+        fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
+        console.log(`   📄 JSON report: ${reportPath}`);
+    }
+
+    /**
+     * Generate HTML report with interactive features
+     */
+    private generateHtmlReport(statistics: TestStatistics[]): void {
+        const flakyTests = statistics.filter(s => s.isFlaky);
+        const stableTests = statistics.filter(s => !s.isFlaky && s.failureRate === 0);
+        const failingTests = statistics.filter(s => s.failureRate >= 0.9);
+
+        const html = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flaky Test Detection Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+        :root {
+            --background: hsl(0, 0%, 100%);
+            --foreground: hsl(0, 0%, 3.9%);
+            --card: hsl(0, 0%, 100%);
+            --card-foreground: hsl(0, 0%, 3.9%);
+            --primary: hsl(0, 0%, 9%);
+            --primary-foreground: hsl(0, 0%, 98%);
+            --secondary: hsl(0, 0%, 96.1%);
+            --secondary-foreground: hsl(0, 0%, 9%);
+            --muted: hsl(0, 0%, 96.1%);
+            --muted-foreground: hsl(0, 0%, 45.1%);
+            --accent: hsl(0, 0%, 96.1%);
+            --accent-foreground: hsl(0, 0%, 9%);
+            --destructive: hsl(0, 84.2%, 60.2%);
+            --destructive-foreground: hsl(0, 0%, 98%);
+            --border: hsl(0, 0%, 89.8%);
+            --input: hsl(0, 0%, 100%);
+            --ring: hsl(0, 0%, 3.9%);
+            --cream-light: #fefbf7;
+            --cream-dark: #f5f1eb;
+            --lavender-light: #f3f0ff;
+            --lavender-dark: #e8e2ff;
+            --lavender-darker: #ded6ff;
         }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--cream-light);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: var(--foreground);
+            font-feature-settings: "rlig" 1, "calt" 1;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            background: var(--background);
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
             overflow: hidden;
         }
+
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
+            background: linear-gradient(135deg, var(--lavender-dark) 0%, var(--lavender-darker) 100%);
+            color: var(--foreground);
+            padding: 60px 40px;
             text-align: center;
         }
+
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 48px;
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: -0.025em;
+            margin-bottom: 12px;
+            font-feature-settings: "kern" 1, "liga" 1, "calt" 1, "dlig" 1;
         }
+
         .header .timestamp {
-            opacity: 0.9;
-            font-size: 0.9em;
+            opacity: 0.75;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            font-weight: 400;
         }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 30px;
-            background: #f8f9fa;
+            gap: 24px;
+            padding: 40px;
+            background: var(--cream-dark);
         }
+
         .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
+            background: var(--background);
+            padding: 24px;
+            border-radius: 8px;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
         }
+
         .stat-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
         }
+
         .stat-number {
-            font-size: 2.5em;
-            font-weight: bold;
-            margin: 10px 0;
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 40px;
+            font-weight: 400;
+            line-height: 1.15;
+            margin: 12px 0;
         }
+
         .stat-label {
-            color: #6c757d;
-            font-size: 0.9em;
+            color: var(--muted-foreground);
+            font-size: 0.75rem;
+            line-height: 1rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.05em;
+            font-weight: 500;
         }
-        .flaky { color: #dc3545; }
-        .stable { color: #28a745; }
-        .failing { color: #ff6b6b; }
-        .warning { color: #ffc107; }
+
+        .flaky { color: var(--destructive); }
+        .stable { color: #22c55e; }
+        .failing { color: #ef4444; }
+        .warning { color: #f59e0b; }
+
         .content {
-            padding: 30px;
+            padding: 40px;
         }
+
         .section {
-            margin-bottom: 40px;
+            margin-bottom: 48px;
         }
+
         .section h2 {
-            color: #333;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #667eea;
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 32px;
+            font-weight: 400;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+            color: var(--foreground);
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
-            border-radius: 10px;
+            background: var(--background);
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
         }
+
         th {
-            background: #667eea;
-            color: white;
-            padding: 15px;
+            background: var(--lavender-light);
+            color: var(--foreground);
+            padding: 16px;
             text-align: left;
-            font-weight: 600;
+            font-weight: 500;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
         }
+
         td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.875rem;
+            line-height: 1.25rem;
         }
+
         tr:hover {
-            background: #f8f9fa;
+            background: var(--cream-light);
         }
+
         .badge {
             display: inline-block;
-            padding: 4px 8px;
+            padding: 4px 12px;
             border-radius: 4px;
-            font-size: 0.85em;
+            font-size: 0.75rem;
+            line-height: 1rem;
             font-weight: 600;
+            letter-spacing: 0.025em;
         }
-        .badge-flaky { background: #dc3545; color: white; }
-        .badge-stable { background: #28a745; color: white; }
-        .badge-failing { background: #ff6b6b; color: white; }
-        .badge-warning { background: #ffc107; color: #333; }
+
+        .badge-flaky {
+            background: var(--destructive);
+            color: white;
+        }
+
+        .badge-stable {
+            background: #22c55e;
+            color: white;
+        }
+
+        .badge-failing {
+            background: #ef4444;
+            color: white;
+        }
+
+        .badge-warning {
+            background: #f59e0b;
+            color: white;
+        }
+
         .progress-bar {
             width: 100%;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
+            height: 6px;
+            background: var(--secondary);
+            border-radius: 3px;
             overflow: hidden;
         }
+
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #28a745, #ffc107, #dc3545);
-            transition: width 0.3s;
+            background: linear-gradient(90deg, #22c55e, #f59e0b, #ef4444);
+            transition: width 0.3s ease;
         }
+
         .confidence-meter {
             display: inline-block;
             width: 60px;
-            height: 20px;
-            background: #e0e0e0;
-            border-radius: 10px;
+            height: 6px;
+            background: var(--secondary);
+            border-radius: 3px;
             position: relative;
             overflow: hidden;
         }
+
         .confidence-fill {
             position: absolute;
             left: 0;
             top: 0;
             height: 100%;
-            background: #667eea;
-            border-radius: 10px;
+            background: var(--primary);
+            border-radius: 3px;
         }
+
         .chart-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-top: 20px;
+            background: var(--background);
+            padding: 24px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-top: 24px;
         }
+
+        .chart-container h3 {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 24px;
+            font-weight: 400;
+            line-height: 1.3;
+            letter-spacing: -0.025em;
+            margin-bottom: 16px;
+        }
+
+        .chart-container ol {
+            margin-left: 20px;
+        }
+
+        .chart-container li {
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .chart-container ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .chart-container code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.875rem;
+            background: var(--muted);
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
         .filter-controls {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             display: flex;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
         }
+
         .filter-btn {
-            padding: 8px 16px;
-            border: 2px solid #667eea;
-            background: white;
-            color: #667eea;
-            border-radius: 5px;
+            padding: 10px 20px;
+            border: 1px solid var(--border);
+            background: var(--background);
+            color: var(--foreground);
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            font-weight: 500;
         }
+
         .filter-btn:hover, .filter-btn.active {
-            background: #667eea;
-            color: white;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border-color: var(--primary);
         }
+
         .search-box {
-            padding: 10px;
-            border: 2px solid #e0e0e0;
-            border-radius: 5px;
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
             width: 300px;
-            font-size: 14px;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--background);
+            color: var(--foreground);
         }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+        }
+
         .tooltip {
             position: relative;
             display: inline-block;
             cursor: help;
         }
+
         .tooltip .tooltiptext {
             visibility: hidden;
             width: 200px;
-            background-color: #333;
-            color: #fff;
+            background-color: var(--primary);
+            color: var(--primary-foreground);
             text-align: center;
             border-radius: 6px;
-            padding: 8px;
+            padding: 8px 12px;
             position: absolute;
             z-index: 1;
             bottom: 125%;
             left: 50%;
             margin-left: -100px;
-            font-size: 12px;
+            font-size: 0.75rem;
+            line-height: 1rem;
         }
+
         .tooltip:hover .tooltiptext {
             visibility: visible;
         }
@@ -463,22 +611,22 @@ export class ReportGenerator {
                     </thead>
                     <tbody>
                         ${statistics.map(test => {
-                            let badge = '';
-                            if (test.isFlaky) {
-                                badge = '<span class="badge badge-flaky">FLAKY</span>';
-                            } else if (test.failureRate === 0) {
-                                badge = '<span class="badge badge-stable">STABLE</span>';
-                            } else if (test.failureRate >= 0.9) {
-                                badge = '<span class="badge badge-failing">FAILING</span>';
-                            } else {
-                                badge = '<span class="badge badge-warning">UNSTABLE</span>';
-                            }
-                            
-                            const passRate = (test.successRate * 100).toFixed(1);
-                            const variance = (test.durationVariance * 100).toFixed(1);
-                            const confidence = test.confidence * 100;
-                            
-                            return `
+            let badge = '';
+            if (test.isFlaky) {
+                badge = '<span class="badge badge-flaky">FLAKY</span>';
+            } else if (test.failureRate === 0) {
+                badge = '<span class="badge badge-stable">STABLE</span>';
+            } else if (test.failureRate >= 0.9) {
+                badge = '<span class="badge badge-failing">FAILING</span>';
+            } else {
+                badge = '<span class="badge badge-warning">UNSTABLE</span>';
+            }
+
+            const passRate = (test.successRate * 100).toFixed(1);
+            const variance = (test.durationVariance * 100).toFixed(1);
+            const confidence = test.confidence * 100;
+
+            return `
                             <tr class="test-row" data-status="${test.isFlaky ? 'flaky' : test.failureRate === 0 ? 'stable' : test.failureRate >= 0.9 ? 'failing' : 'unstable'}">
                                 <td>${badge}</td>
                                 <td>
@@ -504,7 +652,7 @@ export class ReportGenerator {
                                 </td>
                                 <td>${test.totalRuns}</td>
                             </tr>`;
-                        }).join('')}
+        }).join('')}
                     </tbody>
                 </table>
             </div>
@@ -561,138 +709,90 @@ export class ReportGenerator {
     </script>
 </body>
 </html>`;
-    
-    const reportPath = path.join(this.options.outputDir, 'flaky-report.html');
-    fs.writeFileSync(reportPath, html);
-    console.log(`   🌐 HTML report: ${reportPath}`);
-  }
 
-  /**
-   * Generate CSV report for spreadsheet analysis
-   */
-  private generateCsvReport(statistics: TestStatistics[]): void {
-    const headers = [
-      'Test Name',
-      'Suite',
-      'File',
-      'Status',
-      'Total Runs',
-      'Passed',
-      'Failed',
-      'Pass Rate (%)',
-      'Failure Rate (%)',
-      'Avg Duration (ms)',
-      'Duration Variance (%)',
-      'Confidence (%)',
-      'Is Flaky',
-      'Failure Messages'
-    ];
-    
-    const rows = statistics.map(test => [
-      `"${test.name}"`,
-      `"${test.suite}"`,
-      `"${test.file}"`,
-      test.isFlaky ? 'Flaky' : test.failureRate === 0 ? 'Stable' : test.failureRate >= 0.9 ? 'Failing' : 'Unstable',
-      test.totalRuns,
-      test.passed,
-      test.failed,
-      (test.successRate * 100).toFixed(2),
-      (test.failureRate * 100).toFixed(2),
-      test.averageDuration.toFixed(2),
-      (test.durationVariance * 100).toFixed(2),
-      (test.confidence * 100).toFixed(2),
-      test.isFlaky ? 'Yes' : 'No',
-      `"${test.failureMessages.join('; ')}"`
-    ]);
-    
-    const csv = [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
-    
-    const reportPath = path.join(this.options.outputDir, 'flaky-report.csv');
-    fs.writeFileSync(reportPath, csv);
-    console.log(`   📊 CSV report: ${reportPath}`);
-  }
+        const reportPath = path.join(this.options.outputDir, 'flaky-report.html');
+        fs.writeFileSync(reportPath, html);
+        console.log(`   🌐 HTML report: ${reportPath}`);
+    }
 
-  /**
-   * Calculate percentage helper
-   */
-  private percentage(value: number, total: number): string {
-    if (total === 0) return '0%';
-    return `${((value / total) * 100).toFixed(1)}%`;
-  }
+    /**
+     * Generate CSV report for spreadsheet analysis
+     */
+    private generateCsvReport(statistics: TestStatistics[]): void {
+        const headers = [
+            'Test Name',
+            'Suite',
+            'File',
+            'Status',
+            'Total Runs',
+            'Passed',
+            'Failed',
+            'Pass Rate (%)',
+            'Failure Rate (%)',
+            'Avg Duration (ms)',
+            'Duration Variance (%)',
+            'Confidence (%)',
+            'Is Flaky',
+            'Failure Messages'
+        ];
 
-  /**
-   * Calculate test suite health score
-   */
-  private calculateHealthScore(statistics: TestStatistics[]): number {
-    if (statistics.length === 0) return 100;
-    
-    const flakyCount = statistics.filter(s => s.isFlaky).length;
-    const stableCount = statistics.filter(s => !s.isFlaky && s.failureRate === 0).length;
-    const failingCount = statistics.filter(s => s.failureRate >= 0.9).length;
-    
-    const stabilityScore = (1 - (flakyCount / statistics.length)) * 40;
-    const reliabilityScore = (stableCount / statistics.length) * 40;
-    const maintainabilityScore = (1 - (failingCount / statistics.length)) * 20;
-    
-    return Math.round(stabilityScore + reliabilityScore + maintainabilityScore);
-  }
+        const rows = statistics.map(test => [
+            `"${test.name}"`,
+            `"${test.suite}"`,
+            `"${test.file}"`,
+            test.isFlaky ? 'Flaky' : test.failureRate === 0 ? 'Stable' : test.failureRate >= 0.9 ? 'Failing' : 'Unstable',
+            test.totalRuns,
+            test.passed,
+            test.failed,
+            (test.successRate * 100).toFixed(2),
+            (test.failureRate * 100).toFixed(2),
+            test.averageDuration.toFixed(2),
+            (test.durationVariance * 100).toFixed(2),
+            (test.confidence * 100).toFixed(2),
+            test.isFlaky ? 'Yes' : 'No',
+            `"${test.failureMessages.join('; ')}"`
+        ]);
 
-  /**
-   * Get health score emoji
-   */
-  private getHealthEmoji(score: number): string {
-    if (score >= 90) return '🟢';
-    if (score >= 70) return '🟡';
-    if (score >= 50) return '🟠';
-    return '🔴';
-    
-  }
+        const csv = [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
+
+        const reportPath = path.join(this.options.outputDir, 'flaky-report.csv');
+        fs.writeFileSync(reportPath, csv);
+        console.log(`   📊 CSV report: ${reportPath}`);
+    }
+
+    /**
+     * Calculate percentage helper
+     */
+    private percentage(value: number, total: number): string {
+        if (total === 0) return '0%';
+        return `${((value / total) * 100).toFixed(1)}%`;
+    }
+
+    /**
+     * Calculate test suite health score
+     */
+    private calculateHealthScore(statistics: TestStatistics[]): number {
+        if (statistics.length === 0) return 100;
+
+        const flakyCount = statistics.filter(s => s.isFlaky).length;
+        const stableCount = statistics.filter(s => !s.isFlaky && s.failureRate === 0).length;
+        const failingCount = statistics.filter(s => s.failureRate >= 0.9).length;
+
+        const stabilityScore = (1 - (flakyCount / statistics.length)) * 40;
+        const reliabilityScore = (stableCount / statistics.length) * 40;
+        const maintainabilityScore = (1 - (failingCount / statistics.length)) * 20;
+
+        return Math.round(stabilityScore + reliabilityScore + maintainabilityScore);
+    }
+
+    /**
+     * Get health score emoji
+     */
+    private getHealthEmoji(score: number): string {
+        if (score >= 90) return '🟢';
+        if (score >= 70) return '🟡';
+        if (score >= 50) return '🟠';
+        return '🔴';
+
+    }
 }
-/**
- * Report Design Principles:
- * 
- * 1. Markdown Report:
- *    - Human-readable
- *    - GitHub/GitLab friendly
- *    - Easy to share in PRs
- *    - Good for documentation
- * 
- * 2. JSON Report:
- *    - Machine-readable
- *    - API integration ready
- *    - Can be consumed by other tools
- *    - Good for automation
- * 
- * 3. HTML Report:
- *    - Interactive dashboard
- *    - Visual representations
- *    - Good for stakeholders
- *    - Can be hosted as static site
- * 
- * 4. CSV Report:
- *    - Excel/Sheets compatible
- *    - Good for data analysis
- *    - Easy to create charts
- *    - Historical tracking
- * 
- * Best Practices:
- * - Use consistent color coding across formats
- * - Include both absolute numbers and percentages
- * - Sort by importance (flaky tests first)
- * - Provide actionable recommendations
- * - Include timestamp for tracking
- * 
- * Testing Your Reports:
- * 1. Generate with small data set first
- * 2. Open each format and verify correctness
- * 3. Test with edge cases (no flaky tests, all failing, etc.)
- * 4. Validate HTML renders correctly in browser
- * 5. Import CSV into spreadsheet software
- * 
- * Enhancement Ideas:
- * - Add charts/graphs to HTML report
- * - Include trend analysis over time
- * - Add email report format
- * - Create Slack/Teams notification format
- * - Generate JUnit XML for CI integration
- */
