@@ -38,7 +38,7 @@ export async function navigateToCoffeeSection(page: Page): Promise<void> {
   await expect(singleOriginLink).toBeVisible();
   await singleOriginLink.click();
 
-  await page.waitForURL(/\/products\?category=SingleOrigin/);
+  await page.waitForURL(/\/(en\/)?products\?category=SingleOrigin/);
 
   await expect(page.locator('[data-testid^="product-view-details"]').first()).toBeVisible();
 }
@@ -58,7 +58,8 @@ export async function selectColombianProduct(page: Page): Promise<void> {
 
   await page.waitForLoadState('domcontentloaded');
 
-  await expect(page).toHaveURL(/\/(en\/)?products(\/|\?)/);
+  // Ensure we're on product detail page (has product slug, not query string)
+  await expect(page).toHaveURL(/\/(en\/)?products\/[a-z0-9-]+$/);
 
   const addToCartButton = page.getByRole('button', { name: 'Add to Cart' });
   await expect(addToCartButton).toBeVisible();
