@@ -42,7 +42,7 @@ test.describe('Coffee Purchase Flow - Flaky Tests', () => {
     // ANTI-PATTERN 1: No waitForLoadState - might start before page loads
   });
 
-  test('should complete full coffee purchase flow with validation (FLAKY)', async ({ page }) => {
+  test('Should complete full coffee purchase flow with validation (FLAKY)', async ({ page }) => {
 
     await test.step('Navigate to Coffee section', async () => {
       // ANTI-PATTERN 2: Start clicking immediately without initial wait
@@ -61,7 +61,7 @@ test.describe('Coffee Purchase Flow - Flaky Tests', () => {
     });
 
     await test.step('Select product', async () => {
-      // ANTI-PATTERN 6: Using locator.all() - immediate snapshot without waiting
+      // ANTI-PATTERN 6: Using locator.all() - immediate snapshot without waiting for product page to load
       const viewDetailsButtons = await page.getByTestId('product-view-details-colombian-huila').all();
       if (viewDetailsButtons.length > 0) {
         await viewDetailsButtons[0].click({ timeout: 1500 });
@@ -72,56 +72,65 @@ test.describe('Coffee Purchase Flow - Flaky Tests', () => {
     });
 
     await test.step('Add to cart and buy now', async () => {
-      // ANTI-PATTERN 8: Click without verifying button is ready
+      // ANTI-PATTERN 8: Click without verifying button is enabled
       await page.getByRole('button', { name: 'Add to Cart' }).first().click({ timeout: 1500 });
 
-      // ANTI-PATTERN 9: Short timeout between actions (100ms)
+      // ANTI-PATTERN 9: Toast verification with too short wait (50ms insufficient)
+      await page.waitForTimeout(50);
+      const successToast = page.getByText('Item added to guest cart');
+      await expect(successToast).toBeVisible({ timeout: 800 });
+
+      // ANTI-PATTERN 10: Cart badge check with short timeout (600ms may be insufficient)
+      const cartBadge = page.locator('div').filter({ hasText: /^Log In\d+$/ }).locator('span');
+      await expect(cartBadge).toHaveText('1', { timeout: 600 });
+
+      // ANTI-PATTERN 11: Short timeout between actions
       await page.waitForTimeout(100);
 
-      // ANTI-PATTERN 10: Rapid consecutive clicks without waiting
+      // ANTI-PATTERN 12: Click Buy Now without state verification
       await page.getByRole('button', { name: 'Buy Now' }).click({ timeout: 1500 });
     });
 
     await test.step('Proceed to checkout', async () => {
-      // ANTI-PATTERN 10 (continued): No wait between Buy Now and Proceed
+      // ANTI-PATTERN 13: No wait between Buy Now and Proceed to Checkout
       await page.getByRole('button', { name: 'Proceed to Checkout' }).click({ timeout: 1500 });
 
-      // ANTI-PATTERN 11: Very short fixed timeout (300ms)
+      // ANTI-PATTERN 14: Very short fixed timeout (300ms)
       await page.waitForTimeout(300);
     });
 
     await test.step('Fill checkout form', async () => {
-      // ANTI-PATTERN 12: Rapid form filling without verification
+      // ANTI-PATTERN 15: Rapid form filling without verification
       await page.getByRole('textbox', { name: 'Full Name' }).fill(TEST_DATA.CHECKOUT_FORM.fullName, { timeout: 1500 });
 
-      // ANTI-PATTERN 13: No value verification after filling
+      // ANTI-PATTERN 16: No value verification after filling
       await page.getByRole('textbox', { name: 'Email' }).fill(TEST_DATA.CHECKOUT_FORM.email);
       await page.getByRole('textbox', { name: 'Address' }).fill(TEST_DATA.CHECKOUT_FORM.address);
 
-      // ANTI-PATTERN 14: Rapid form filling without waiting
+      // ANTI-PATTERN 17: Rapid form filling without waiting
       await page.getByRole('textbox', { name: 'City' }).fill(TEST_DATA.CHECKOUT_FORM.city);
 
-      // ANTI-PATTERN 15: No wait or verification before filling
+      // ANTI-PATTERN 18: No wait or verification before filling
       await page.getByRole('textbox', { name: 'Postal Code' }).fill(TEST_DATA.CHECKOUT_FORM.postalCode);
 
-      // ANTI-PATTERN 16: Hard-coded timeout for dropdown (300ms)
+      // ANTI-PATTERN 19: Hard-coded timeout for dropdown (300ms)
       await page.waitForTimeout(300);
 
-      // ANTI-PATTERN 17: No verification that dropdown is ready
+      // ANTI-PATTERN 20: No verification that dropdown is ready
       await page.getByRole('combobox').first().click();
 
-      // ANTI-PATTERN 18: Assuming options are immediately available
+      // ANTI-PATTERN 21: Assuming options are immediately available
       await page.getByRole('option', { name: TEST_DATA.CHECKOUT_FORM.country }).click();
 
-      // ANTI-PATTERN 19: Checkbox check without verification
+      // ANTI-PATTERN 22: Checkbox check without verification
       await page.getByRole('checkbox').check();
     });
 
     await test.step('Verify checkout completion ready', async () => {
-      // ANTI-PATTERN 20: Short timeout before final assertion (200ms)
+      // ANTI-PATTERN 23: Short timeout before final assertion (200ms)
       await page.waitForTimeout(200);
 
-      // ANTI-PATTERN 21: Premature assertion without proper wait
+      // ANTI-PATTERN 24: Incomplete assertion (only checks visible, not enabled)
       await expect(page.getByRole('button', { name: 'Continue to Payment' })).toBeVisible();
     });
   });

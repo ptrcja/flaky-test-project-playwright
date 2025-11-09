@@ -14,7 +14,7 @@ import {
   proceedToCheckout,
   fillCheckoutForm,
   type CheckoutFormData,
-} from '../utils/coffee-helpers.refactored';
+} from '../utils/coffee-helpers';
 
 const TEST_DATA = {
   BASE_URL: 'https://coffee-e2e.vercel.app/en',

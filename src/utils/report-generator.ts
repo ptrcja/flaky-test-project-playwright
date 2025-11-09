@@ -86,8 +86,8 @@ export class ReportGenerator {
         if (flakyTests.length > 0) {
             markdown += '## 🔴 Flaky Tests (Immediate Attention Required)\n\n';
             markdown += 'These tests show inconsistent behavior and need to be fixed:\n\n';
-            markdown += '| Test Name | Suite | Pass Rate | Duration Variance | Confidence | Common Failure |\n';
-            markdown += '|-----------|-------|-----------|-------------------|------------|----------------|\n';
+            markdown += '| Test Name | Suite | Pass Rate | Duration Variance | Detection Confidence | Common Failure |\n';
+            markdown += '|-----------|-------|-----------|-------------------|----------------------|----------------|\n';
 
             for (const test of flakyTests) {
                 const passRate = `${(test.successRate * 100).toFixed(1)}%`;
@@ -98,6 +98,7 @@ export class ReportGenerator {
                 markdown += `| \`${test.name}\` | ${test.suite} | ${passRate} | ${variance} | ${confidence} | ${commonFailure}... |\n`;
             }
             markdown += '\n';
+            markdown += '> **Note**: Detection Confidence indicates how confident the system is in correctly classifying the test. Higher scores mean stronger evidence (based on number of runs, failure patterns, and timing variance).\n\n';
 
             // Failure Analysis
             markdown += '### 📈 Failure Patterns\n\n';
@@ -508,24 +509,6 @@ export class ReportGenerator {
             border-color: var(--primary);
         }
 
-        .search-box {
-            padding: 10px 16px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            width: 300px;
-            font-size: 0.875rem;
-            line-height: 1.25rem;
-            font-family: 'Inter', system-ui, sans-serif;
-            background: var(--background);
-            color: var(--foreground);
-        }
-
-        .search-box:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
-        }
-
         .tooltip {
             position: relative;
             display: inline-block;
@@ -551,6 +534,21 @@ export class ReportGenerator {
 
         .tooltip:hover .tooltiptext {
             visibility: visible;
+        }
+
+        .info-box {
+            background: var(--lavender-light);
+            border-left: 4px solid var(--primary);
+            padding: 16px 20px;
+            border-radius: 6px;
+            margin-bottom: 24px;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .info-box strong {
+            color: var(--primary);
+            font-weight: 600;
         }
     </style>
 </head>
@@ -588,14 +586,19 @@ export class ReportGenerator {
             <div class="section">
                 <h2>Test Results Overview</h2>
                 
+                <div class="info-box">
+                    <strong>📊 Understanding Detection Confidence:</strong> This metric shows how confident the system is in correctly classifying each test.
+                    Higher scores (50-100%) indicate stronger evidence based on: number of test runs, failure rate patterns (flaky zone: 20-80%), and timing variance.
+                    A stable test with 100% pass rate may show lower confidence simply because there's less data to analyze.
+                </div>
+
                 <div class="filter-controls">
-                    <input type="text" class="search-box" id="searchBox" placeholder="Search tests..." onkeyup="filterTests()">
                     <button class="filter-btn active" onclick="filterByStatus('all')">All Tests</button>
                     <button class="filter-btn" onclick="filterByStatus('flaky')">Flaky Only</button>
                     <button class="filter-btn" onclick="filterByStatus('stable')">Stable Only</button>
                     <button class="filter-btn" onclick="filterByStatus('failing')">Failing Only</button>
                 </div>
-                
+
                 <table id="testTable">
                     <thead>
                         <tr>
@@ -605,7 +608,12 @@ export class ReportGenerator {
                             <th>Pass Rate</th>
                             <th>Avg Duration</th>
                             <th>Variance</th>
-                            <th>Confidence</th>
+                            <th>
+                                <div class="tooltip">
+                                    Detection Confidence
+                                    <span class="tooltiptext">Confidence in flaky test detection accuracy (higher = stronger evidence of classification)</span>
+                                </div>
+                            </th>
                             <th>Runs</th>
                         </tr>
                     </thead>
@@ -696,16 +704,6 @@ export class ReportGenerator {
                 }
             });
         }
-        
-        function filterTests() {
-            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
-            const rows = document.querySelectorAll('.test-row');
-            
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(searchTerm) ? '' : 'none';
-            });
-        }
     </script>
 </body>
 </html>`;
@@ -731,7 +729,7 @@ export class ReportGenerator {
             'Failure Rate (%)',
             'Avg Duration (ms)',
             'Duration Variance (%)',
-            'Confidence (%)',
+            'Detection Confidence (%)',
             'Is Flaky',
             'Failure Messages'
         ];
