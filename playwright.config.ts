@@ -13,13 +13,13 @@ export default defineConfig({
   retries: 0,
   
   // More workers = faster execution
-  workers: process.env.CI ? 2 : 4,
+  workers: process.env.CI ? 1 : 1,
   
   // Timeout for each test
   timeout: 30000,
   
   // Global test timeout
-  globalTimeout: 600000,
+  globalTimeout: 1800000,
   
   // Reporter configuration with CTRF
   reporter: [
@@ -27,7 +27,6 @@ export default defineConfig({
     [
       'playwright-ctrf-json-reporter',
       {
-        outputFile: 'reports/ctrf/ctrf-report.json',
         // CTRF specific options
         minimal: false, // Full details for analysis
         testType: 'e2e', // Categorize as end-to-end tests
@@ -44,17 +43,19 @@ export default defineConfig({
 
   use: {
     // Base URL for testing
-    baseURL: 'https://friedhats.com',
-    
+    baseURL: 'https://coffee-e2e.vercel.app',
+
     // Collect trace on failure for debugging
     trace: 'retain-on-failure',
-    
+
     // Screenshot on failure
     screenshot: 'only-on-failure',
-    
+
     // Video on failure
     video: 'retain-on-failure',
-  },
+
+
+    },
 
   // Configure browsers
   projects: [

@@ -11,7 +11,7 @@
     "test:headed": "playwright test --headed",
     "test:debug": "playwright test --debug",
     "detect-flaky": "ts-node src/run-flaky-detection.ts",
-    "detect-flaky:quick": "ts-node src/run-flaky-detection.ts 5",
+    "detect-flaky:quick": "ts-node src/run-flaky-detection.ts 10",
     "detect-flaky:thorough": "ts-node src/run-flaky-detection.ts 20",
     "report:open": "open reports/analysis/flaky-report.html",
     "report:serve": "npx http-server reports/analysis -o",
