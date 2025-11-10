@@ -5,3 +5,7 @@ dist/** linguist-generated
 
 # Mark test files as TypeScript (if needed)
 *.spec.ts linguist-language=TypeScript
+
+# Documentation images
+docs/images/*.png binary
+docs/images/*.jpg binary

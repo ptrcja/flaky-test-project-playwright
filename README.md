@@ -19,6 +19,14 @@ A Playwright-based detector that runs tests repeatedly, classifies them as Stabl
 - Provides actionable insights with confidence scores
 - Calculates test suite health scores
 
+## Sample Output
+
+![Flaky Test Detection Report](docs/images/report-overview.png)
+
+**Interactive features:** Filter by test status • View detailed error patterns • Real-time metrics dashboard
+
+[Get started →](#quick-start)
+
 ## Data Flow
 
 ```mermaid

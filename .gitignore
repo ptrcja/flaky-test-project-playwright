@@ -10,8 +10,9 @@ node_modules
 # Build files
 dist
 
-# Docs
-docs/
+# Docs (keep images for README)
+docs/*
+!docs/images/
 /test-results
 claude.md
 .last-run.json
