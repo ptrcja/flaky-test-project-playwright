@@ -1,8 +1,8 @@
 # GitHub Actions Workflow for Flaky Test Detection
-# 
+#
 # This workflow automatically runs flaky detection on:
 # - Nightly schedule
-# - Pull requests  
+# - Pull requests
 # - Manual trigger
 #
 # Learning Goals:
@@ -14,7 +14,7 @@
 name: Flaky Test Detection with CTRF
 
 # TODO #1: Define workflow triggers
-# 
+#
 # The 'on' section defines when this workflow runs.
 # You need to implement three triggers:
 #
@@ -34,42 +34,74 @@ name: Flaky Test Detection with CTRF
 #    - Only when test files change (use 'paths' filter)
 #    - Watch: src/tests/**, playwright.config.ts, package.json
 on:
-  # TODO: Implement the three triggers here
-  # Hint: Each trigger is a top-level key under 'on'
+  # Nightly runs for continuous monitoring
+  schedule:
+    - cron: '0 2 * * *'
+
+  # Manual trigger with parameters
+  workflow_dispatch:
+    inputs:
+      runs:
+        description: 'Number of test runs'
+        required: false
+        default: '10'
+        type: choice
+        options:
+          - '5'
+          - '10'
+          - '15'
+          - '20'
+          - '30'
+
+  # Run on pull requests
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'src/tests/**'
+      - 'playwright.config.ts'
+      - 'package.json'
 
 jobs:
   # TODO #2: Define the main job
-  # 
+  #
   # Job name: detect-flaky-tests
   # Runner: ubuntu-latest (GitHub-hosted Linux runner)
   # Timeout: 60 minutes (tests can take time)
   detect-flaky-tests:
-    # TODO: Add runs-on and timeout-minutes
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
 
     steps:
     # TODO #3: Implement checkout step
-    # 
+    #
     # Purpose: Clone the repository code
     # Action: actions/checkout@v4
-    # 
+    #
     # Why v4? Latest stable version with improved performance
     # Name: Use emoji 📥 for visual clarity
+    - name: 📥 Checkout repository
+      uses: actions/checkout@v4
 
     # TODO #4: Implement Node.js setup
-    # 
+    #
     # Purpose: Install Node.js and npm
     # Action: actions/setup-node@v4
-    # 
+    #
     # Configuration:
     # - node-version: '20' (LTS version)
     # - cache: 'npm' (speeds up dependency installation)
     #
     # The cache option reuses node_modules between runs
+    - name: 🔧 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
 
     # TODO #5: Implement dependency installation
-    # 
+    #
     # Purpose: Install npm packages and Playwright browsers
-    # 
+    #
     # Commands to run:
     # 1. npm ci (faster than npm install for CI)
     # 2. npx playwright install --with-deps chromium
@@ -78,11 +110,15 @@ jobs:
     # - Installs from package-lock.json
     # - Faster and more reliable for CI
     # - Fails if lock file is outdated
+    - name: 📦 Install dependencies
+      run: |
+        npm ci
+        npx playwright install --with-deps chromium
 
     # TODO #6: Implement flaky detection execution
-    # 
+    #
     # Purpose: Run the main detection script
-    # 
+    #
     # Key points:
     # - id: detection (allows referencing in other steps)
     # - continue-on-error: true (process results even if tests fail)
@@ -92,11 +128,16 @@ jobs:
     # Command: npm run detect-flaky -- <number_of_runs>
     #
     # The ${{ }} syntax is GitHub Actions expression syntax
+    - name: 🔍 Run flaky detection
+      id: detection
+      run: |
+        npm run detect-flaky -- ${{ github.event.inputs.runs || '10' }}
+      continue-on-error: true
 
     # TODO #7: Implement results parsing
-    # 
+    #
     # Purpose: Extract metrics from JSON report
-    # 
+    #
     # Implementation details:
     # - if: always() (run even if previous steps failed)
     # - id: parse (for referencing outputs)
@@ -111,12 +152,33 @@ jobs:
     #
     # Example jq usage:
     # jq '.summary.flakyTests' reports/analysis/flaky-report.json
+    - name: 📊 Parse results
+      id: parse
+      if: always()
+      run: |
+        # Extract summary from JSON report
+        if [ -f "reports/analysis/flaky-report.json" ]; then
+          FLAKY_COUNT=$(jq '.summary.flakyTests' reports/analysis/flaky-report.json)
+          TOTAL_COUNT=$(jq '.summary.totalTests' reports/analysis/flaky-report.json)
+          HEALTH_SCORE=$(jq '.summary.healthScore' reports/analysis/flaky-report.json)
+
+          echo "flaky_count=$FLAKY_COUNT" >> $GITHUB_OUTPUT
+          echo "total_count=$TOTAL_COUNT" >> $GITHUB_OUTPUT
+          echo "health_score=$HEALTH_SCORE" >> $GITHUB_OUTPUT
+
+          # Set status emoji
+          if [ "$FLAKY_COUNT" -eq 0 ]; then
+            echo "status_emoji=✅" >> $GITHUB_OUTPUT
+          else
+            echo "status_emoji=🔴" >> $GITHUB_OUTPUT
+          fi
+        fi
 
     # TODO #8: Implement artifact upload for CTRF reports
-    # 
+    #
     # Purpose: Save CTRF JSON reports for debugging
     # Action: actions/upload-artifact@v4
-    # 
+    #
     # Configuration:
     # - name: ctrf-reports-${{ github.run_number }}
     # - path: reports/ctrf/
@@ -126,26 +188,47 @@ jobs:
     # - Debug test failures
     # - Historical analysis
     # - Share results with team
+    - name: 📤 Upload CTRF reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: ctrf-reports-${{ github.run_number }}
+        path: reports/ctrf/
+        retention-days: 30
 
     # TODO #9: Implement artifact upload for analysis reports
-    # 
+    #
     # Similar to #8 but for:
     # - path: reports/analysis/
     # - Contains HTML, MD, JSON, CSV reports
     # - These are the main output files
+    - name: 📤 Upload analysis reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: flaky-analysis-${{ github.run_number }}
+        path: reports/analysis/
+        retention-days: 30
 
     # TODO #10: Implement artifact upload for raw test data
-    # 
+    #
     # Upload individual run results:
     # - path: reports/runs/
     # - retention-days: 7 (shorter, these are large)
     # - Useful for deep debugging
+    - name: 📤 Upload test runs data
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-runs-${{ github.run_number }}
+        path: reports/runs/
+        retention-days: 7
 
     # TODO #11: Implement PR comment functionality
-    # 
+    #
     # Purpose: Post results as PR comment
     # Action: actions/github-script@v7
-    # 
+    #
     # Conditions:
     # - Only run for pull_request events
     # - Use if: github.event_name == 'pull_request' && always()
@@ -165,12 +248,73 @@ jobs:
     # - context.repo.owner: Repository owner
     # - context.repo.repo: Repository name
     # - context.issue.number: PR number
+    - name: 💬 Comment on PR
+      if: github.event_name == 'pull_request' && always()
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+
+          // Read the markdown report
+          let comment = '## 🔍 Flaky Test Detection Results\n\n';
+
+          if (fs.existsSync('reports/analysis/flaky-report.md')) {
+            const report = fs.readFileSync('reports/analysis/flaky-report.md', 'utf8');
+
+            // Extract key sections for PR comment
+            const lines = report.split('\n');
+            let inSummary = false;
+            let summaryContent = [];
+
+            for (const line of lines) {
+              if (line.includes('Executive Summary')) {
+                inSummary = true;
+              } else if (inSummary && line.startsWith('##')) {
+                break;
+              } else if (inSummary) {
+                summaryContent.push(line);
+              }
+            }
+
+            comment += summaryContent.join('\n');
+            comment += '\n\n[View Full Report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})';
+          } else {
+            comment += '❌ No report generated. Check the workflow logs for errors.';
+          }
+
+          // Find existing comment or create new one
+          const { data: comments } = await github.rest.issues.listComments({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+          });
+
+          const botComment = comments.find(comment =>
+            comment.user.type === 'Bot' &&
+            comment.body.includes('Flaky Test Detection Results')
+          );
+
+          if (botComment) {
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: botComment.id,
+              body: comment
+            });
+          } else {
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: comment
+            });
+          }
 
     # TODO #12: Implement check run creation
-    # 
+    #
     # Purpose: Create visual status check on PR
     # Action: actions/github-script@v7
-    # 
+    #
     # Check run details:
     # - name: 'Flaky Test Detection'
     # - conclusion: 'success' or 'failure' based on flaky_count
@@ -179,6 +323,102 @@ jobs:
     # API method: github.rest.checks.create()
     #
     # This creates the ✓ or ✗ mark on the PR
+    - name: 📈 Create check run
+      if: always()
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const flaky_count = ${{ steps.parse.outputs.flaky_count || 0 }};
+          const total_count = ${{ steps.parse.outputs.total_count || 0 }};
+          const health_score = ${{ steps.parse.outputs.health_score || 0 }};
+          const status_emoji = '${{ steps.parse.outputs.status_emoji || "❓" }}';
+
+          const conclusion = flaky_count === 0 ? 'success' : 'failure';
+          const title = `${status_emoji} Flaky Test Detection: ${flaky_count} flaky tests found`;
+          const summary = `
+          ### Test Suite Health Score: ${health_score}/100
+
+          - **Total Tests**: ${total_count}
+          - **Flaky Tests**: ${flaky_count}
+          - **Detection Runs**: ${{ github.event.inputs.runs || '10' }}
+
+          ${flaky_count > 0 ? '⚠️ Flaky tests detected. Please review the detailed report.' : '✅ No flaky tests detected!'}
+          `;
+
+          await github.rest.checks.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            name: 'Flaky Test Detection',
+            head_sha: context.sha,
+            status: 'completed',
+            conclusion: conclusion,
+            output: {
+              title: title,
+              summary: summary
+            }
+          });
+
+    # TODO #13: Implement Slack notification (optional)
+    #
+    # Purpose: Alert team when flaky tests are detected
+    # Only sends notification when:
+    # - The detection job fails (has flaky tests)
+    # - AND flaky_count > 0
+    #
+    # Requires: SLACK_WEBHOOK_URL secret to be configured
+    - name: 📢 Send Slack notification
+      if: failure() && steps.parse.outputs.flaky_count > 0
+      uses: slackapi/slack-github-action@v1
+      with:
+        payload: |
+          {
+            "text": "${{ steps.parse.outputs.status_emoji }} Flaky Test Detection Alert",
+            "blocks": [
+              {
+                "type": "header",
+                "text": {
+                  "type": "plain_text",
+                  "text": "🔴 Flaky Tests Detected"
+                }
+              },
+              {
+                "type": "section",
+                "fields": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Repository:*\n${{ github.repository }}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Branch:*\n${{ github.ref_name }}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Flaky Tests:*\n${{ steps.parse.outputs.flaky_count }} / ${{ steps.parse.outputs.total_count }}"
+                  },
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Health Score:*\n${{ steps.parse.outputs.health_score }}/100"
+                  }
+                ]
+              },
+              {
+                "type": "actions",
+                "elements": [
+                  {
+                    "type": "button",
+                    "text": {
+                      "type": "plain_text",
+                      "text": "View Report"
+                    },
+                    "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  }
+                ]
+              }
+            ]
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
 # ============================================
 # Workflow Variables Reference
